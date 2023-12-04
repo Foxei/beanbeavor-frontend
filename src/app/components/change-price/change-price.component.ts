@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_SNACK_BAR_DATA, MatSnackBarRef } from '@angular/material/snack-bar';
 import { ProductsService } from 'src/app/services/product.service';
@@ -13,11 +13,9 @@ export class ChangePriceComponent {
     price: new FormControl(this.data[2], [Validators.required, Validators.max(999), Validators.min(0)])
   });
 
-  constructor(
-    public snackBarRef: MatSnackBarRef<ChangePriceComponent>,
-    @Inject(MAT_SNACK_BAR_DATA) public data: any,
-    private productService: ProductsService
-  ) {
+  constructor(public snackBarRef: MatSnackBarRef<ChangePriceComponent>,
+    @Inject(MAT_SNACK_BAR_DATA) public data: any, private productService: ProductsService,
+    private elementRef: ElementRef) {
   }
 
   public get valid(): boolean {
@@ -25,9 +23,16 @@ export class ChangePriceComponent {
   }
 
   public onSubmitForm(): void {
-    if (!this.valid){return;}
+    if (!this.valid) { return; }
     this.form.disable();
     this.snackBarRef.dismiss();
     this.productService.changeProductPrice(this.data[1], this.form.value['price']);
+  }
+
+  @HostListener('document:mousedown', ['$event'])
+  onGlobalClick(event: any): void {
+     if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.snackBarRef.dismiss();
+     }
   }
 }

@@ -239,9 +239,9 @@ $theme-light: mat.define-light-theme((
     accent: $accent,
     warn: $warn,
   ),
-  // is-dark: false,
-  // foreground: $light-theme-foreground,
-  // background: $light-theme-background,
+  is-dark: false,
+  foreground: $light-theme-foreground,
+  background: $light-theme-background,
   density: 0,
   typography: $my-typography
 ));

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { ProductsService } from 'src/app/services/product.service';
 import { VersionsService } from "src/app/services/version.service";
-import { ArticleService } from 'src/app/services/article.service';
 
 @Component({
   selector: 'app-about',
@@ -9,7 +9,7 @@ import { ArticleService } from 'src/app/services/article.service';
 })
 export class AboutComponent {
 
-  constructor(private versionService: VersionsService, private productService: ArticleService) {
+  constructor(private versionService: VersionsService, private productService: ProductsService) {
   }
 
   public get version(): string {
@@ -29,8 +29,8 @@ export class AboutComponent {
   }
 
   public get numberOfProduct(): number {
-    if (!this.productService.numberOfArticles) return 0;
-    return this.productService.numberOfArticles;
+    if (!this.productService.numberOfProducts) return 0;
+    return this.productService.numberOfProducts;
   }
 
   public get numberOfTransaction(): number {

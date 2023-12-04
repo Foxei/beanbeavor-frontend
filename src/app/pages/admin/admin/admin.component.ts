@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { tap } from 'rxjs';
 import { ProductsService, Product } from 'src/app/services/product.service';
@@ -17,9 +17,13 @@ export class AdminComponent implements OnInit {
   paginatedProducts: Product[] = [];
   oldSnackbar: any = null;
 
-  constructor(private snackBar: MatSnackBar, private productService: ProductsService) { }
+  constructor(private snackBar: MatSnackBar, private productService: ProductsService) {}
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    if (this.oldSnackbar != null) this.oldSnackbar.dismiss();
   }
 
   public updatePaginatedObject() {

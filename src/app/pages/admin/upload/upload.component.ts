@@ -3,8 +3,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatButton } from "@angular/material/button";
 import { FileUploadService, UploadableFile } from "src/app/services/file-upload.service";
-import { Image } from "src/app/services/image";
-import { Product, ProductsService } from 'src/app/services/product.service';
+import { Image, Product, ProductsService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-upload',

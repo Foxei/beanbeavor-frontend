@@ -2,25 +2,40 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
-import { Image } from "./image";
+export class ProductDatabaseStatistic {
+    numberOfProducts = 0;
+}
+
+export interface Image {
+    name: string;
+    url: string;
+}
 
 export interface Product {
-  id: string;
-  name: string;
-  category: string;
-  description: string;
-  price: number;
-  enabled: boolean;
-  image: Image;
-  creationTime: number;
-  lastEditTime: number;
+    id: string;
+    name: string;
+    category: string;
+    description: string;
+    price: number;
+    enabled: boolean;
+    image: Image;
+    creationTime: number;
+    lastEditTime: number;
 }
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProductsService {
-    constructor(private firestore: AngularFirestore) { }
+
+    private _productStatistic: ProductDatabaseStatistic = new ProductDatabaseStatistic();
+
+    constructor(private firestore: AngularFirestore) {
+        this.products$.subscribe((products) => {
+            this._productStatistic.numberOfProducts = products.length;
+        });
+    };
+
     firestoreProductsCollection = this.firestore.collection('products', ref => ref.orderBy('creationTime', 'asc'));
 
     //READ
@@ -86,4 +101,9 @@ export class ProductsService {
             console.log(err);
         }
     }
+
+    public get numberOfProducts(): number {
+        return this._productStatistic.numberOfProducts;
+    }
+
 }

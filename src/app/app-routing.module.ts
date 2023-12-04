@@ -14,7 +14,7 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent, canActivate: [AuthenticationGuard]},
   {path: 'about', component: AboutComponent, canActivate: [AuthenticationGuard]},
   {path: 'admin', component: AdminComponent, canActivate: [AdminGuard]},
-  {path: 'uploadProduct', component: UploadComponent, canActivate: [AdminGuard]},
+  {path: 'upload', component: UploadComponent, canActivate: [AdminGuard]},
   {path: 'action', component: ActionComponent},
   {path: '**', redirectTo: 'home' }
 ];

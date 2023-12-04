@@ -7,30 +7,19 @@
 
 @include mat.all-component-themes($theme-light);
 
-.background-pattern:after {
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
-}
-
-.mat-simple-snackbar-action button {
-  color: #fdab46 !important;
-}
-
-.mat-snack-bar-container {
-  background-color: white !important;
-  color: black;
+.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: white;
+  --mat-mdc-snack-bar-button-color: black;
+  --mdc-snackbar-supporting-text-color: black;
 }
 
 .color-scheme-dark {
   @include mat.all-component-colors($theme-dark);
 
-  .mat-snack-bar-container {
-    background-color: #101010 !important;
-    color: white;
-  }
-
-  .mat-simple-snackbar-action button {
-    color: theme.mat-color($accent) !important;
+  .mat-mdc-snack-bar-container {
+    --mdc-snackbar-container-color: #303030;
+    --mat-mdc-snack-bar-button-color: white;
+    --mdc-snackbar-supporting-text-color: white;
   }
 
 }
