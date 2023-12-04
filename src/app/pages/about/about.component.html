@@ -1,0 +1,12 @@
+<mat-card *ngIf="version != ''" fxFlex="800px" fxFlex.lt-md="100">
+  <mat-card-content>
+    <h1>Bean Beavor</h1>
+    <p><strong>Version: </strong>{{this.version}}&nbsp;</p>
+    <p>{{this.description}}</p>
+    <p><strong>Created on: </strong>{{this.creationTime}}&nbsp;</p>
+    <h1>Statistics</h1>
+    <p><strong>Updated versions: </strong>{{this.numberOfVersion}}&nbsp;</p>
+    <p><strong>Total products: </strong>{{this.numberOfProduct}}&nbsp;</p>
+    <p><strong>Processed transactions: </strong>{{this.numberOfTransaction}}&nbsp;</p>
+  </mat-card-content>
+</mat-card>

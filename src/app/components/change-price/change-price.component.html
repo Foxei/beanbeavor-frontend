@@ -1,0 +1,19 @@
+<div fxLayout="column">
+    <p>Change price of {{data[0]}} to:</p>
+    <form [formGroup]="form" (ngSubmit)="onSubmitForm()">
+
+        <mat-form-field class="btn-block" appearance="outline">
+            <mat-label>Price</mat-label>
+            <input matInput matInput  type="number" step=".01" min="0" max="999" formControlName="price">
+            <mat-icon matSuffix>euro</mat-icon>
+            <mat-error *ngIf="form.hasError('required', 'price')">Enter valid product price.</mat-error>
+            <mat-error *ngIf="form.hasError('max', 'price')">Entered price to high.</mat-error>
+            <mat-error *ngIf="form.hasError('min', 'price')">Entered price to low.</mat-error>
+        </mat-form-field>
+    </form>
+    <div fxLayout="row">
+
+    <button mat-button class="btn-block" [disabled]="!valid" (click)="onSubmitForm()" color="accent">Submit</button>
+    <button mat-button class="btn-block" (click)="snackBarRef.dismiss()" color="warn">Close</button>
+    </div>
+</div>

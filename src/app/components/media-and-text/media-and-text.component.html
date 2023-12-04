@@ -1,0 +1,8 @@
+<div fxLayout="row" fxLayout.lt-sm="column-reverse" fxFlexAlign="center center">
+  <div>
+    <ng-content></ng-content>
+  </div>
+  <div fxLayout="column" fxLayout.lt-sm="row" fxFlexAlign="center">
+    <img [class]="this.mediaClass" [src]="this.mediaSrc" style="max-width: 150px;" [alt]="this.altText">
+  </div>
+</div>

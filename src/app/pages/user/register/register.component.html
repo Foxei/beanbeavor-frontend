@@ -1,0 +1,49 @@
+<mat-card fxFlex="800px" fxFlex.lt-md="100">
+  <mat-card-content>
+    <h1>Registrieren</h1>
+    <p>Willkommen bei Tom Technik. Wir freuen uns, dass du mitmachen möchtest, sag uns doch noch schnell, wie wir dich nennen sollen und wie wir dich erreichen.</p>
+    <form (ngSubmit)="register()">
+      <mat-form-field class="btn-block" appearance="outline">
+        <mat-label>Nutzername</mat-label>
+        <input type="username" matInput [formControl]="usernameFormControl" placeholder="Nutzername">
+        <mat-error *ngIf="usernameFormControl.hasError('pattern') && !usernameFormControl.hasError('required')">
+          Bitte gib eine gültigen Nutzernamen ein. Es sind nur A-Z, a-z und 0-9 zulässig mit maximal 30 und mindestens 2 Zeichen.
+        </mat-error>
+        <mat-error *ngIf="usernameFormControl.hasError('required')">
+          Bitte gib deine Nutzernamen ein,
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="btn-block" appearance="outline">
+        <mat-label>E-Mail</mat-label>
+        <input type="email" matInput [formControl]="emailFormControl" placeholder="marie.mustermann@beispiel.com">
+        <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+          Bitte gib eine gültige E-Mail Adresse ein,
+        </mat-error>
+        <mat-error *ngIf="emailFormControl.hasError('required')">
+          Bitte gib deine E-Mail Adresse ein,
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="btn-block" appearance="outline">
+        <mat-label>Passwort</mat-label>
+        <input type="password" matInput [formControl]="passwordFormControl" placeholder="Geheimes Passwort">
+        <mat-error *ngIf="passwordFormControl.hasError('required')">
+          Bitte gib deine Passwort ein,
+        </mat-error>
+        <mat-error *ngIf="passwordFormControl.hasError('pattern') && !passwordFormControl.hasError('required')">
+          Dein Password benötigt Großbuchstaben, Kleinbuchstaben, Zahlen und muss mindestens 8 Zeichen lang sein.
+        </mat-error>
+      </mat-form-field>
+      <button mat-flat-button color="primary" class="btn-block" type="submit" [disabled]="!isValid()">
+        Registrieren <mat-icon>send</mat-icon>
+      </button>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button color="primary" [routerLink]="['/action']" [queryParams]="{mode: 'login'}">
+      Anmelden
+    </button>
+    <button mat-button color="primary" [routerLink]="['/action']" [queryParams]="{mode: 'forgotPassword'}">
+      Passwort Vergessen
+    </button>
+  </mat-card-actions>
+</mat-card>

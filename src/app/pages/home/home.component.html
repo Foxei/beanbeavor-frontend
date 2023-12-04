@@ -1,0 +1,41 @@
+<!--Sort filter-->
+
+<div fxLayout="column" fxLayoutGap="1rem">
+  
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayout.sm="row" fxLayout.lt-sm="row" style="gap: 16px">
+    <button mat-button style="min-height: 400px;" (click)="paginator.previousPage()" [disabled]="!paginator.hasPreviousPage()"><mat-icon aria-hidden="false" aria-label="Example home icon">navigate_before</mat-icon></button>
+    <div *ngFor="let product of paginatedProducts" fxFlex="250px" fxFlex.sm="250px" fxFlex.lt-sm="250px" >
+      <mat-card style="height: 350px;">
+       
+        <img mat-card-image [src]="product.image.url"
+          style="object-fit: cover;aspect-ratio: square; width:250px; height:250px; background-image: url('assets/no-coffee.svg'); background-size: 250px 250px;">
+        <mat-card-content>
+          <mat-card-header style="margin: 0; padding: 16px 0 0 0;" fxLayout="row" fxLayoutAlign="center center">
+            <div mat-card-avatar fxLayout="row" fxLayoutAlign="center center" style="margin: 0;">
+              <strong>{{product.price | currency:'EUR':'symbol':'1.2':'de-DE'}}</strong>
+            </div>
+           
+
+            <mat-card-title class="clamp-to-one-line">{{product.name}}</mat-card-title>
+            <mat-card-subtitle class="clamp-to-two-line">{{product.description}}</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card-content>
+        <!-- <mat-card-actions>
+        </mat-card-actions> -->
+      </mat-card>
+    </div>
+    <button mat-button style="min-height: 400px" (click)="paginator.nextPage()" [disabled]="!paginator.hasNextPage()"><mat-icon aria-hidden="false" aria-label="Example home icon">navigate_next</mat-icon></button>
+
+  </div>
+  <!-- <mat-card class="mat-elevation-z4"> -->
+    <!-- <mat-card-content fxLayout="row" fxLayoutAlign="space-between center" fxGap="0" style="margin: 0;"> -->
+      <!-- <button mat-flat-button color="accent" [routerLink]="['/uploadProject']" matTooltip="Add Product" fxHide.lt-sm="true">
+        Add New Product<mat-icon>add</mat-icon>
+      </button> -->
+      <mat-paginator #paginator [length]="displayedProducts.length" [pageSize]="3"
+        [showFirstLastButtons]="false" [pageSizeOptions]="[3]" [hidePageSize]="true" [pageIndex]="0"
+        aria-label="Select page" style="border-radius: 4px;" [hidden]="true">
+      </mat-paginator>
+    <!-- </mat-card-content> -->
+  <!-- </mat-card> -->
+</div>

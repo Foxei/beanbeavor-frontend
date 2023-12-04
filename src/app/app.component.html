@@ -1,0 +1,48 @@
+<div fxFill fxLayout="column" fxLayoutAlign="center stretch" fxFlex="100">
+  <mat-toolbar class="navbar-background">
+    <mat-toolbar-row>
+
+      <button mat-icon-button aria-label="Button to get back to the home page." [routerLink]="['home']">
+        <img src="assets/logo.svg" class="mat-icon" />
+      </button>
+
+      <a style="text-decoration: inherit;color: inherit;" [routerLink]="['home']">
+        <span>Bean Beavor</span>
+      </a>
+
+      <span class="nav-bar-spacer"></span>
+
+      <button mat-icon-button aria-label="Button to access the admin panel." [routerLink]="['admin']">
+        <mat-icon>admin_panel_settings</mat-icon>
+      </button>
+
+      <button mat-icon-button aria-label="Button to activate dark mode." (click)="this.activateDarkMode()"
+        [hidden]="this.isDarkMode">
+        <mat-icon>dark_mode</mat-icon>
+      </button>
+
+      <button mat-icon-button aria-label="Button to activate light mode." (click)="this.activateLightMode()"
+        [hidden]="!this.isDarkMode">
+        <mat-icon>light_mode</mat-icon>
+      </button>
+
+      <button mat-icon-button aria-label="Button to login into the user account." [routerLink]="['action']"
+        [queryParams]="{mode: 'login'}" *ngIf="!this.isSignedIn">
+        <mat-icon>login</mat-icon>
+      </button>
+
+      <button mat-icon-button aria-label="Button to access user profile" [routerLink]="['action']"
+        [queryParams]="{mode: 'user'}" *ngIf="this.isSignedIn">
+        <img class="nav-bar-profile-picture" [src]="this.currentUserPhotoURL" referrerpolicy="no-referrer" />
+      </button>
+    </mat-toolbar-row>
+
+  </mat-toolbar>
+
+  <div class="page-container" fxFlex>
+    <div fxLayout="row" fxLayoutAlign="center start">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</div>

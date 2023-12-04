@@ -1,0 +1,44 @@
+<mat-card *ngIf="username != ''">
+  <mat-card-content>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between start" fxLayoutAlign.lt-md="center stretch"
+         fxLayoutGap="3rem">
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div [class.blocked-profile-picture]="this.isBlocked">
+          <img class="profile-picture" [src]="this.profilePictureUrl" alt="Profilbild" referrerpolicy="no-referrer">
+        </div>
+        <div class="with-icon" style="align-items: center">
+          <span class="mat-title" style="margin-bottom: 0; margin-top: 0">{{this.username}}&nbsp;</span>
+          <mat-icon matTooltip="Die Identität dieses Nutzers wurde vom Tom Technik Team überprüft"
+                    *ngIf="this.isVerified" color="primary">
+            verified
+          </mat-icon>
+        </div>
+        <p>{{this.email}}</p>
+      </div>
+      <div>
+        <h1>Herzlich wilkommen!</h1>
+        <div class="with-icon">
+          <p><strong>Status: </strong>{{this.role}}&nbsp;</p>
+          <!-- <mat-icon>{{this.roleIcon}}</mat-icon> -->
+        </div>
+        <p>{{this.roleDescription}}</p>
+        <p><strong>Mitglied seit: </strong>{{this.creationTime}}&nbsp;</p>
+        <p><strong>Aktiv am: </strong>{{this.lastSignInTime}}&nbsp;</p>
+        <div class="with-icon">
+          <p><strong>E-Mail bestätigt: </strong>{{this.isEmailVerified ? "Verified" : "Inactive"}}&nbsp;</p>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-flat-button color="primary" (click)="logout()" class="btn-block">
+      Abmelden
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>
+<mat-card *ngIf="username == ''">
+  <mat-card-content fxLayout="row" fxLayoutAlign="space-around center">
+    <mat-spinner></mat-spinner>
+  </mat-card-content>
+</mat-card>
