@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from "@angular/fire/compat";
-import { AngularFirestoreModule } from "@angular/fire/compat/firestore";
 import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
@@ -17,9 +16,6 @@ import { environment } from "../environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { MaterialModule } from './material.module';
 
-import { MediaAndTextComponent } from "./components/media-and-text/media-and-text.component";
-import { ErrorCardComponent } from "./components/error-card/error-card.component";
-
 import { AboutComponent } from "./pages/about/about.component";
 
 import { HomeComponent } from "./pages/home/home.component";
@@ -31,8 +27,8 @@ import { ActionComponent } from "./pages/user/action/action.component";
 import { UserComponent } from "./pages/user/user/user.component";
 
 import { AdminComponent } from "./pages/admin/admin/admin.component";
-import { UploadComponent } from "./pages/admin/upload/upload.component";
 import { ChangePriceComponent } from './components/change-price/change-price.component';
+import { UploadComponent } from './components/upload/upload.component';
 
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
@@ -43,14 +39,12 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     HomeComponent,
     AboutComponent,
     AdminComponent,
-    MediaAndTextComponent,
     AuthenticationComponent,
     RegisterComponent,
     ForgotPasswordComponent,
     ActionComponent,
     UserComponent,
     UploadComponent,
-    ErrorCardComponent,
     ChangePriceComponent],
   imports: [
     BrowserModule,

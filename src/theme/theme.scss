@@ -3,7 +3,9 @@
 @use '@angular/material' as mat;
 @use '@angular/material/theming' as theme;
 
-@import "./theme/colors.scss";
+@import "./colors.scss";
+
+@include mat.core();
 
 @include mat.all-component-themes($theme-light);
 

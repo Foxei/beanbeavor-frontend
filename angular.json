@@ -23,11 +23,11 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
+              "src/theme/favicon.ico",
               "src/assets"
             ],
             "styles": [
-              "src/custom-theme.scss",
+              "src/theme/theme.scss",
               "src/styles.css"
             ],
             "scripts": []
@@ -103,5 +103,8 @@
       }
     }
   },
-  "defaultProject": "beanbeaver-frontend"
+  "defaultProject": "beanbeaver-frontend",
+  "cli": {
+    "analytics": false
+  }
 }

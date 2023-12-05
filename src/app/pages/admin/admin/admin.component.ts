@@ -4,9 +4,10 @@ import { tap } from 'rxjs';
 import { ProductsService, Product } from 'src/app/services/product.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ChangePriceComponent } from 'src/app/components/change-price/change-price.component';
+import { UploadComponent } from 'src/app/components/upload/upload.component';
 
 @Component({
-  selector: 'app-projects',
+  selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
@@ -41,10 +42,19 @@ export class AdminComponent implements OnInit {
 
   public disableProduct(id: string) {
     this.productService.enableProduct(id, false);
+    this.snackBar.open("Product disabled.", "Close");
   }
 
   public enableProduct(id: string) {
     this.productService.enableProduct(id, true);
+  }
+
+  public uploadNewProduct() {
+    // this.snackBar.open("Enter new price for " + id + ": ", 'Submit');
+    if (this.oldSnackbar != null) this.oldSnackbar.dismiss();
+    this.oldSnackbar = this.snackBar.openFromComponent(UploadComponent, {
+      data: []
+    });
   }
 
   public changePrice(id: string, name: string, price: number) {
