@@ -1,104 +1,110 @@
-import {Component, OnInit} from '@angular/core';
-import {AuthenticationService} from "src/app/services/authentication.service";
-import {Router} from "@angular/router";
-import {ThemeService} from "src/app/services/theme.service";
+import { Component } from '@angular/core';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  templateUrl: './user.component.html'
 })
-export class UserComponent implements OnInit {
+export class UserComponent {
 
-  constructor(private router: Router, private authenticationService: AuthenticationService, public themeService: ThemeService,) {
+  constructor(
+    private authenticationService: AuthenticationService
+  ) { }
+
+  get currentUser() {
+    return this.authenticationService.currentUser;
   }
 
-  ngOnInit(): void {
+  get username(): string {
+    return this.currentUser ? this.currentUser.displayName : 'Max Mustermann'
   }
 
-  public get username(): string {
-    if(!this.authenticationService.currentUser) return '';
-    return this.authenticationService.currentUser.displayName;
+  get email(): string {
+    return this.currentUser ? this.currentUser.email : '';
   }
 
-  public get email(): string {
-    if(!this.authenticationService.currentUser) return '';
-    return this.authenticationService.currentUser.email;
+  get creationTime(): string {
+    return this.currentUser ? this.currentUser.creationTime : '';
   }
 
-  public get creationTime(): string {
-    if(!this.authenticationService.currentUser) return '';
-    return this.authenticationService.currentUser.creationTime;
+  get lastSignInTime(): string {
+    return this.currentUser ? this.currentUser.lastSignInTime : '';
   }
 
-  public get lastSignInTime(): string {
-    if(!this.authenticationService.currentUser) return '';
-    return this.authenticationService.currentUser.lastSignInTime;
+  get isVerified(): boolean {
+    return this.currentUser ? this.currentUser.verified : false;
   }
 
-  public get isVerified(): boolean {
-    if(!this.authenticationService.currentUser) return false;
-    return this.authenticationService.currentUser.verified;
+  get isEmailVerified(): boolean {
+    return this.currentUser ? this.currentUser.emailVerified : false;
   }
 
-  public get isEmailVerified(): boolean {
-    if(!this.authenticationService.currentUser) return false;
-    return this.authenticationService.currentUser.emailVerified;
+  get isBlocked(): boolean {
+    return this.currentUser ? this.currentUser.role === 'blocked' : false;
   }
 
-  public get isBlocked(): boolean {
-    if(!this.authenticationService.currentUser) return false;
-    return this.authenticationService.currentUser.role == 'blocked';
+  get isAuthorized(): boolean {
+    return this.currentUser ? this.currentUser.role !== 'unauthorized' : false;
   }
 
-  public get isAuthorised(): boolean {
-    if(!this.authenticationService.currentUser) return false;
-    return this.authenticationService.currentUser.role != 'unauthorised';
+  get role(): string {
+    return this.currentUser ? this.mapRoleToString(this.currentUser.role) : 'Test Dummy';
   }
 
-  public get role(): string {
-    if(!this.authenticationService.currentUser) return '';
-    if(!this.authenticationService.currentUser) return '';
-    switch (this.authenticationService.currentUser.role){
-      case 'unauthorised': return 'Warten auf Freigabe'
-      case 'blocked': return 'Blockiert'
-      case 'user': return 'Freigegeben'
-      case 'moderator': return 'Moderator'
-      case 'admin': return 'Admin'
-    }
-    return '';  }
-
-  public get roleDescription(): string {
-    if(!this.authenticationService.currentUser) return '';
-    switch (this.authenticationService.currentUser.role){
-      case 'unauthorised': return 'Aktuelle steht deine Freigabe durch das Tom Technik Team noch aus.'
-      case 'blocked': return 'Dein Account wurde vom Tom Technik Team gesperrt. Bitte kontaktiere uns, wenn du glaubst, dass dies ein Fehler ist.'
-      case 'user': return 'Du bist freigegeben und kannst Projekte runterladen, so wie deine eigenen Projekte hochladen.'
-      case 'moderator': return 'Du bist Moderator und kann jetzt nicht nur Projekte hoch- bzw. runterladen, sondern auch Projekte von andern Nutzern freigeben.'
-      case 'admin': return 'Du bist Administrator und kann Projekte hoch- bzw. runterladen, Projekte von andern Nutzern und neu registrierte Nutzer freigeben.'
-    }
-    return '';
+  get roleDescription(): string {
+    return this.currentUser ? this.mapRoleToDescription(this.currentUser.role) : '';
   }
 
-  public get roleIcon(): string {
-    if(!this.authenticationService.currentUser) return '';
-    switch (this.authenticationService.currentUser.role){
-      case 'unauthorised': return 'pending'
-      case 'blocked': return 'sentiment_dissatisfied'
-      case 'user': return 'check_circle'
-      case 'moderator': return 'star'
-      case 'admin': return 'local_police'
-    }
-    return '';
+  get profilePictureUrl(): string {
+    return this.currentUser ? this.currentUser.photoURL.replace('s96-c', 's300-c') : '';
   }
 
-
-  public get profilePictureUrl(): string {
-    if(!this.authenticationService.currentUser) return '';
-    return this.authenticationService.currentUser.photoURL.replace('s96-c', 's300-c');
-  }
-
-  public logout(): void {
+  public signOut(): void {
     this.authenticationService.signOut().then();
+  }
+
+  private mapRoleToString(role: string): string {
+    switch (role) {
+      case 'blocked':
+        return 'Blocked';
+      case 'user':
+        return 'Consumer';
+      case 'maintainer':
+        return 'Maintainer';
+      case 'admin':
+        return 'Administrator';
+      default:
+        return 'Unknown role';
+    }
+  }
+
+  private mapRoleToDescription(role: string): string {
+    switch (role) {
+      case 'blocked':
+        return 'This user account has been blocked due to a violation of our terms of service. Please contact support for further assistance.';
+      case 'user':
+        return 'This user is a consumer and has access to basic features. Consumers can browse products, make purchases, and manage their account settings.';
+      case 'maintainer':
+        return 'This user is a maintainer with elevated privileges. Maintainers can moderate content, manage user accounts, and ensure the platform runs smoothly.';
+      case 'admin':
+        return 'This user is an administrator with the highest level of access. Administrators have full control over the system, including user management, configuration, and system-wide settings.';
+      default:
+        return 'Unknown role';
+    }
+  }
+
+  private mapRoleToIcon(role: string): string {
+    switch (role) {
+      case 'blocked':
+        return 'sentiment_dissatisfied';
+      case 'user':
+        return 'check_circle';
+      case 'maintainer':
+        return 'star';
+      case 'admin':
+        return 'local_police';
+      default:
+        return '';
+    }
   }
 }

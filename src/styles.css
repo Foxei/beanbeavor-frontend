@@ -45,3 +45,29 @@ body {
 .small-margin-top {
   margin-top: 1rem;
 }
+
+.loading-background {
+  background-color: rgba(100,100,100,0.2);
+  color: transparent !important;
+}
+
+p.loading-background {
+  border-radius: 5px;
+}
+
+mat-card-title.loading-background{
+  border-radius: 5px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+mat-card-subtitle.loading-background{
+  border-radius: 5px;
+  margin-left: 5px;
+}
+
+img.animate{
+  opacity: 1;
+  -webkit-transition: opacity 0.1s linear;
+  transition: opacity 0.1s linear;
+}
+img.loading{opacity: 0}

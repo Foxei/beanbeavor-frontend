@@ -231,7 +231,7 @@ export class AuthenticationService {
       displayName: <string>user.displayName,
       photoURL: <string>user.photoURL,
       emailVerified: user.emailVerified,
-      role: "unauthorised",
+      role: "user",
       verified: false,
       creationTime: user.metadata.creationTime ? user.metadata.creationTime : '',
       lastSignInTime: user.metadata.lastSignInTime ? user.metadata.lastSignInTime : ''

@@ -7,7 +7,7 @@
       <div *ngFor="let product of paginatedProducts" fxFlex="300px" fxFlex.sm="300px" fxFlex.lt-sm="100%" >
         <mat-card >
          
-          <img mat-card-image [src]="product.image.url"
+          <img class="loading" onload="this.className='animate'" mat-card-image [src]="product.image.url"
             style="object-fit: cover;aspect-ratio: square; width:300px; height:300px; background-image: url('assets/no-coffee.svg'); background-size: 300px 300px;">
           <mat-card-content>
             <mat-card-header>
@@ -15,7 +15,6 @@
                 <strong>{{product.price | currency:'EUR':'symbol':'1.2':'de-DE'}}</strong>
               </div>
              
-  
               <mat-card-title class="clamp-to-one-line">{{product.name}}</mat-card-title>
               <mat-card-subtitle class="clamp-to-one-line">{{product.description}}</mat-card-subtitle>
             </mat-card-header>
