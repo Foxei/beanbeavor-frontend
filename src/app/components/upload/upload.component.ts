@@ -4,6 +4,7 @@ import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from "@angular/materi
 import { MatButton } from "@angular/material/button";
 import { FileUploadService, UploadableFile } from "src/app/services/file-upload.service";
 import { Image, Product, ProductsService } from 'src/app/services/product.service';
+import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-upload',
@@ -24,8 +25,8 @@ export class UploadComponent {
 
   @ViewChild(MatButton) selectImagesButton!: MatButton;
 
-  constructor(public snackBarRef: MatSnackBarRef<UploadComponent>,
-    @Inject(MAT_SNACK_BAR_DATA) public data: any,
+  constructor(public snackBarRef: MatBottomSheetRef<UploadComponent>,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
     private fileUploadService: FileUploadService,
     private productService: ProductsService,
     private elementRef: ElementRef) {
@@ -68,12 +69,5 @@ export class UploadComponent {
         // this.snackBar.open("Upload complete. Product is now availabe.", "Close")
       });
     })
-  }
-
-  @HostListener('document:mousedown', ['$event'])
-  onGlobalClick(event: any): void {
-     if (!this.elementRef.nativeElement.contains(event.target)) {
-      this.snackBarRef.dismiss();
-     }
   }
 }

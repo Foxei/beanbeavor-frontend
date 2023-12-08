@@ -1,95 +1,81 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { tap } from 'rxjs';
-import { ProductsService, Product } from 'src/app/services/product.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ChangePriceComponent } from 'src/app/components/change-price/change-price.component';
-import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import { Component } from '@angular/core';
+import { ProductsService, Category } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  templateUrl: './home.component.html'
 })
-export class HomeComponent implements OnInit {
-  @ViewChild('paginator', { static: false }) paginator!: MatPaginator;
-  displayedProducts: Product[] = [];
-  paginatedProducts: Product[] = [];
-  oldSnackbar: any = null;
+export class HomeComponent {
+  categories: Category[] = [];
 
-  constructor(private snackBar: MatSnackBar, private productService: ProductsService, private media: MediaObserver) { }
+  constructor(private productService: ProductsService) { }
 
-  ngOnInit(): void {
-    this.media.asObservable().pipe().subscribe((change: MediaChange[]) => {
-      change.forEach(mediaChange => {
-        if (mediaChange.mqAlias == "lg") {
-          this.paginator.pageSize = 4;
-          this.updatePaginatedObject();
-        } else if (mediaChange.mqAlias == "md") {
-          this.paginator.pageSize = 3;
-          this.updatePaginatedObject();
-        } else if (mediaChange.mqAlias == "sm") {
-          this.paginator.pageSize = 2;
-          this.updatePaginatedObject();
-        } else if (mediaChange.mqAlias == "xs") {
-          this.paginator.pageSize = 1;
-          this.updatePaginatedObject();
-        } else {
-          console.log(change);
-        }
-      });
+  public scroll(id: string): void {
+    const el = document.getElementById(id);
+    el!.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
 
+  public ngAfterViewInit(): void {
+    this.productService.categories$.subscribe((categories) => {
+      this.categories = categories;
     });
-
-  }
-
-  public updatePaginatedObject() {
-    const index = this.paginator.pageIndex;
-    const size = this.paginator.pageSize;
-    const distanceToEnd = this.displayedProducts.length - ((index + 1) * size);
-    const iterations = size;
-    const shift = Math.min(distanceToEnd, 0);
-
-    this.paginatedProducts = this.paginatedProducts.slice(0, size);
-    for (let i = 0; i < iterations; i++) {
-      let targetIndex = i + (index * size) + shift;
-      this.paginatedProducts[i] = this.displayedProducts[targetIndex];
-    }
-  }
-
-  public disableProduct(id: string) {
-    this.productService.enableProduct(id, false);
-  }
-
-  public enableProduct(id: string) {
-    this.productService.enableProduct(id, true);
-  }
-
-  public changePrice(id: string, name: string, price: number) {
-    // this.snackBar.open("Enter new price for " + id + ": ", 'Submit');
-    if (this.oldSnackbar != null) this.oldSnackbar.dismiss();
-    this.oldSnackbar = this.snackBar.openFromComponent(ChangePriceComponent, {
-      data: [name, id, price]
-    });
-  }
-
-  ngAfterViewInit() {
-    this.productService.products$.subscribe((products) => {
-      for (let i = 0; i < products.length; i++) {
-        if (this.displayedProducts.length - 1 < i) {
-          this.displayedProducts.push(products[i]);
-        } else if (this.displayedProducts[i].id != products[i].id) {
-          this.displayedProducts[i] = products[i];
-        } else {
-          this.displayedProducts[i].description = products[i].description;
-          this.displayedProducts[i].name = products[i].name;
-          this.displayedProducts[i].enabled = products[i].enabled;
-          this.displayedProducts[i].price = products[i].price;
-        }
-      }
-      this.updatePaginatedObject();
-    });
-
-    this.paginator.page.pipe(tap(() => this.updatePaginatedObject())).subscribe();
   }
 }
+
+Euglüh
+Almdudler
+Bier (0,33L auch alk.frei–außer Leffe/Erdinger)
+Bier (0,5 L) auch alk.frei  - kein Erdinger-
+Café au lait
+Cappuccino
+Club-Mate
+Coca Cola (hi-carb)
+Coke ZERO
+Coke Zero koffeinfrei
+Chouffe Bier
+Eifler Landbier
+Eis: Cuja Mara Split
+Eis: Magnum / NUII
+Engelbert Apfel
+Engelbert Naturell
+Engelbert/Rheinfels Sprudel
+Erdinger Alkoholfrei (0,5l) 
+Erdnüsse
+Fanta
+Fassbrause/Bionade
+Gerolsteiner
+Haribo-Beutel
+
+Kaffee klein
+Kaffee groß
+Latte Macchiato
+Moccachoc
+Espresso
+
+Erdinger Alkoholfrei (0.33l) 
+Knoppers Riegel
+Leffe
+Milka
+Pizza
+Rockstar/Monster (inkl. Pfand)
+Schoko-Creme (Kakao)
+
+Taschentücher
+Apfel
+Balisto
+Duplo
+Eis: Cornetto
+Eis: Nogger
+Oreo Kekse
+Trolli
+Twix 
+Yogurette
+Nuts Royal Nüsse
+Mandarine/Clementine
+MioMio Mate
+
+3D-Druck pro gramm
+Simplex Farbe
+Simplex S/W
+Duplex S/W
+Duplex Farbe

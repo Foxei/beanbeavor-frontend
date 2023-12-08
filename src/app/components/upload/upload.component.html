@@ -1,5 +1,7 @@
 <div fxLayout="column">
   <form [formGroup]="form" (ngSubmit)="onSubmitForm()" (keydown.enter)="$event.preventDefault()">
+    <h2>Upload a new product to the database:</h2>
+
     <div fxLayout="row" fxLayoutGap="1rem" fxLayout.lt-sm="column">
       <div fxFlex="80">
 
@@ -46,11 +48,11 @@
 
       </div>
     </div>
-    <button [disabled]="!valid" class="btn-block" color="primary" mat-flat-button type="submit">
-      Submit
-      <mat-icon *ngIf="form.enabled">upload</mat-icon>
-      <mat-icon *ngIf="!form.enabled"><mat-progress-spinner mode="indeterminate"
-          diameter="20"></mat-progress-spinner></mat-icon>
-    </button>
   </form>
+
+  <div fxLayout="row">
+    <button mat-button class="btn-block" [disabled]="!valid" (click)="onSubmitForm()" color="accent">Submit</button>
+    <button mat-button class="btn-block" (click)="snackBarRef.dismiss()" color="warn">Close</button>
+  </div>
+
 </div>

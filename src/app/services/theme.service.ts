@@ -55,8 +55,6 @@ export class ThemeService {
 
     // Add new CSS class to body
     this._renderer.addClass(this.document.body, this._colorSchemePrefixClassName + this._currentTheme);
-
-    console.log(this.isDarkMode)
   }
 
   public activateDarkMode() {

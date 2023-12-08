@@ -1,35 +1,59 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { tap } from 'rxjs';
 import { ProductsService, Product } from 'src/app/services/product.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ChangePriceComponent } from 'src/app/components/change-price/change-price.component';
-import { UploadComponent } from 'src/app/components/upload/upload.component';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  selector: 'product-carousell',
+  templateUrl: './product-carousell.component.html',
+  styleUrls: ['./product-carousell.component.css']
 })
-
-export class AdminComponent {
+export class ProductCarousellComponent implements OnInit {
   @ViewChild('paginator', { static: false }) paginator!: MatPaginator;
+  
+  @Input() category: string = "Food";
+
   displayedProducts: Product[] = [];
   paginatedProducts: Product[] = [];
+  oldSnackbar: any = null;
 
-  constructor(private bottomSheet: MatBottomSheet, private productService: ProductsService) {}
+  constructor(private snackBar: MatSnackBar, private productService: ProductsService, private media: MediaObserver) { }
 
+  ngOnInit(): void {
+    this.media.asObservable().pipe().subscribe((change: MediaChange[]) => {
+      change.forEach(mediaChange => {
+        if (mediaChange.mqAlias == "lg") {
+          this.paginator.pageSize = 4;
+          this.updatePaginatedObject();
+        } else if (mediaChange.mqAlias == "md") {
+          this.paginator.pageSize = 3;
+          this.updatePaginatedObject();
+        } else if (mediaChange.mqAlias == "sm") {
+          this.paginator.pageSize = 2;
+          this.updatePaginatedObject();
+        } else if (mediaChange.mqAlias == "xs") {
+          this.paginator.pageSize = 1;
+          this.updatePaginatedObject();
+        }
+      });
+
+    });
+
+  }
 
   public updatePaginatedObject() {
     const index = this.paginator.pageIndex;
     const size = this.paginator.pageSize;
     const distanceToEnd = this.displayedProducts.length - ((index + 1) * size);
-    const iterations = size + Math.min(distanceToEnd, 0);
+    const iterations = size;
+    const shift = Math.min(distanceToEnd, 0);
 
-    this.paginatedProducts = this.paginatedProducts.slice(0, iterations);
+    this.paginatedProducts = this.paginatedProducts.slice(0, size);
     for (let i = 0; i < iterations; i++) {
-      let targetIndex = i + (index * size);
+      let targetIndex = i + (index * size) + shift;
       this.paginatedProducts[i] = this.displayedProducts[targetIndex];
     }
   }
@@ -42,20 +66,16 @@ export class AdminComponent {
     this.productService.enableProduct(id, true);
   }
 
-  public uploadNewProduct() {
-    this.bottomSheet.open(UploadComponent, {
-      data: []
-    });
-  }
-
   public changePrice(id: string, name: string, price: number) {
-    this.bottomSheet.open(ChangePriceComponent, {
-      data: {name, id, price} 
+    // this.snackBar.open("Enter new price for " + id + ": ", 'Submit');
+    if (this.oldSnackbar != null) this.oldSnackbar.dismiss();
+    this.oldSnackbar = this.snackBar.openFromComponent(ChangePriceComponent, {
+      data: [name, id, price]
     });
   }
 
   ngAfterViewInit() {
-    this.productService.products$.subscribe((products) => {
+    this.productService.getProductsOfCategory(this.category).subscribe((products) => {
       for (let i = 0; i < products.length; i++) {
         if (this.displayedProducts.length - 1 < i) {
           this.displayedProducts.push(products[i]);
@@ -74,4 +94,3 @@ export class AdminComponent {
     this.paginator.page.pipe(tap(() => this.updatePaginatedObject())).subscribe();
   }
 }
-

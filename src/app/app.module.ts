@@ -29,6 +29,7 @@ import { UserComponent } from "./pages/user/user/user.component";
 import { AdminComponent } from "./pages/admin/admin/admin.component";
 import { ChangePriceComponent } from './components/change-price/change-price.component';
 import { UploadComponent } from './components/upload/upload.component';
+import { ProductCarousellComponent } from './components/product-carousell/product-carousell.component';
 
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
@@ -44,6 +45,7 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     ForgotPasswordComponent,
     ActionComponent,
     UserComponent,
+    ProductCarousellComponent,
     UploadComponent,
     ChangePriceComponent],
   imports: [

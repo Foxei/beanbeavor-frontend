@@ -212,17 +212,6 @@ $dark-theme-foreground: (
   slider-off-active: rgba(white, 0.3),
 );
 
-$theme-dark: mat.define-dark-theme((
-  color: ( 
-    primary: $primary,
-    accent: $accent,
-    warn: $warn,
-  ),
-  is-dark: true,
-  foreground: $dark-theme-foreground,
-  background: $dark-theme-background,
-));
-
 $my-typography: mat.define-typography-config(
   $headline-1: mat.define-typography-level(112px, 112px, 300, $letter-spacing: -0.05em),
   $headline-2: mat.define-typography-level(56px, 56px, 400, $letter-spacing: -0.02em),
@@ -232,6 +221,19 @@ $my-typography: mat.define-typography-config(
 );
 
 @include mat.typography-hierarchy($my-typography);
+
+$theme-dark: mat.define-dark-theme((
+  color: ( 
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+  ),
+  is-dark: true,
+  foreground: $dark-theme-foreground,
+  background: $dark-theme-background,
+  density: 0,
+  typography: $my-typography
+));
 
 $theme-light: mat.define-light-theme((
   color: ( 
@@ -245,3 +247,4 @@ $theme-light: mat.define-light-theme((
   density: 0,
   typography: $my-typography
 ));
+

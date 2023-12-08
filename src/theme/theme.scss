@@ -3,6 +3,8 @@
 @use '@angular/material' as mat;
 @use '@angular/material/theming' as theme;
 
+@use './snackbar-theme' as snackbar;
+
 @import "./colors.scss";
 
 @include mat.core();
@@ -17,6 +19,8 @@
 
 .color-scheme-dark {
   @include mat.all-component-colors($theme-dark);
+  
+  @include snackbar.theme($theme-dark);
 
   .mat-mdc-snack-bar-container {
     --mdc-snackbar-container-color: #303030;

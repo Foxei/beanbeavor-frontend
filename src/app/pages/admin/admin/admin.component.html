@@ -32,7 +32,7 @@
         <button mat-flat-button color="accent" fxHide.lt-sm="true" (click)="uploadNewProduct()">
           Add New Product<mat-icon>add</mat-icon>
         </button>
-        <mat-paginator #paginator [length]="displayedProducts.length" [pageSize]="3"
+        <mat-paginator #paginator [length]="displayedProducts.length" [pageSize]="6"
           [showFirstLastButtons]="false" [pageSizeOptions]="[3,6,9,12]" [pageIndex]="0"
           aria-label="Select page" style="border-radius: 4px;">
         </mat-paginator>
