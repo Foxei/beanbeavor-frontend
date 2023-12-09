@@ -1,0 +1,63 @@
+.checkmark {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke: white;
+    fill: none;
+    stroke-miterlimit: 10;
+    animation: animation_checkmark .1s ease-in-out .9s both;
+}
+
+.checkmark__background {
+    animation: background_animation .9s linear 0.0s 1 alternate,
+}
+
+.checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    animation: animation_strok 0.4s cubic-bezier(0.65, 0, 0.45, 1) 0.0s forwards;
+}
+
+.checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: animation_strok 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.0s forwards;
+}
+
+@keyframes animation_strok {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes animation_checkmark {
+
+    0% {
+        transform: none;
+
+    }
+
+    100% {
+        transform: scale3d(0, 0, 0);
+        ;
+    }
+
+    50% {
+        transform: scale3d(1.1, 1.1, 1);
+    }
+
+}
+
+@keyframes background_animation {
+    100% {
+        background-color: rgba(30, 30, 30, 0.4);
+    }
+
+    0% {
+        background-color: rgba(30, 30, 30, 0.0);
+    }
+}

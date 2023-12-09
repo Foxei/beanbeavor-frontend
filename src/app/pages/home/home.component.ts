@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { ProductsService, Category } from 'src/app/services/product.service';
+import { ProductsService, Category, Product } from 'src/app/services/product.service';
+import { CartService } from 'src/app/services/cart.service';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -7,8 +9,13 @@ import { ProductsService, Category } from 'src/app/services/product.service';
 })
 export class HomeComponent {
   categories: Category[] = [];
+  
+  _productsInCart: Product[] = [];
+  _totalInCart: number = 0;
 
-  constructor(private productService: ProductsService) { }
+  _showCart: boolean = false;
+
+  constructor(private productService: ProductsService, public shoppingCartService: CartService) { }
 
   public scroll(id: string): void {
     const el = document.getElementById(id);
@@ -20,6 +27,27 @@ export class HomeComponent {
       this.categories = categories;
     });
   }
+
+  public get products(): Product[] {
+    return this.shoppingCartService.products;
+  }
+
+  public get total(): number {
+    return this.shoppingCartService.total;
+  }
+
+  public clear(): void {
+    this.shoppingCartService.clear();
+  }
+
+  public get showCart(): boolean{
+    return this._showCart;
+  }
+
+  public toogleCart(): void {
+    this._showCart = !this._showCart;
+  }
+
 }
 
 // Euglüh

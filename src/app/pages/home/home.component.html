@@ -1,13 +1,59 @@
-<div class="fixed top-3 left-0 right-0" style="width: 400px; margin: 0 auto;">
-  <mat-chip-listbox>
-    <mat-chip-option *ngFor="let category of categories" (click)="scroll(category.name)">{{category.name}}</mat-chip-option>
-  </mat-chip-listbox>
+<div class="fixed flex flex-row justify-center top-3 left-0 right-0 pointer-events-none">
+  <mat-chip class="m-1 pointer-events-auto" *ngFor="let category of categories"
+    (click)="scroll(category.name)">{{category.name}}</mat-chip>
 </div>
 
-<div class="absolute top-16 left-0 right-0 bottom-0 flex flex-row justify-center">
+<div class="absolute top-16 left-0 right-0 bottom-0 flex flex-row justify-center gap-4">
   <div class="overflow-scroll w-full">
     <div *ngFor="let category of categories" attr.id="{{category.name}}">
       <product-carousell [category]="category.name"></product-carousell>
     </div>
+    <div class="h-[100px] w-full">
+    </div>
   </div>
+</div>
+
+
+<div class="fixed right-3 bottom-3 flex flex-col gap-3 ">
+  <mat-card [hidden]="!showCart">
+    <mat-card-header>
+      <mat-card-title>Shopping Cart</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="max-h-80 overflow-y-scroll">
+      <mat-list>
+        <mat-list-item *ngFor="let product of products">
+          <div class="flex">
+            <span class="flex-auto">{{product.name}}</span><strong>{{product.price |
+              currency:'EUR':'symbol':'1.2':'de-DE'}}</strong>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+    <mat-card-actions>
+      <mat-list class="w-full">
+        <mat-list-item>
+          <div class="flex border-t pt-3">
+            <span class="flex-auto">Total:</span><strong>{{total | currency:'EUR':'symbol':'1.2':'de-DE'}}</strong>
+          </div>
+        </mat-list-item>
+      </mat-list>
+
+    </mat-card-actions>
+  </mat-card>
+  <mat-card class="mat-elevation-z8 z-50">
+    <mat-card-actions class="gap-3">
+      <button mat-flat-button color="accent"
+        [disabled]="this.shoppingCartService.products.length == 0"><mat-icon>payments</mat-icon>Checkout
+      </button>
+      <button mat-flat-button (click)="toogleCart()">
+        <strong>{{total | currency:'EUR':'symbol':'1.2':'de-DE'}}</strong>
+        <mat-icon>
+          shopping_cart
+        </mat-icon>
+      </button>
+      <button mat-icon-button class="-ml-[16px]" (click)="clear()" color="warn"
+        [disabled]="this.shoppingCartService.products.length == 0"><mat-icon>delete</mat-icon></button>
+    </mat-card-actions>
+
+  </mat-card>
 </div>

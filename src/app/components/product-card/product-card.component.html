@@ -1,0 +1,22 @@
+<button #cardButton (click)="onClick(product, $event)">
+    <mat-card matRipple class="w-[250px] h-[340px]">
+        <img mat-card-image [src]="product.image.url"
+            style="object-fit: cover;aspect-ratio: square; width:250px; height:250px; background-image: url('assets/no-coffee.svg'); background-size: 250px 250px;"
+            class="loading" onload="this.className='animate'">
+
+        <div class="flex flex-row text-left gap-4 pt-2 pl-4 pr-4">
+            <strong class="pt-6">{{product.price | currency:'EUR':'symbol':'1.2':'de-DE'}}</strong>
+            <div>
+                <mat-card-title class="clamp-to-one-line">{{product.name}}</mat-card-title>
+                <mat-card-subtitle class="clamp-to-two-line">{{product.description}}</mat-card-subtitle>
+            </div>
+        </div>
+        <div [hidden]="!animating"
+            class="absolute top-0 left-0 flex justify-center items-center checkmark__background rounded-sm w-[250px] h-[340px]">
+            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+                <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+            </svg>
+        </div>
+    </mat-card>
+</button>
