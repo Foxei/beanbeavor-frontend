@@ -11,26 +11,30 @@ import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 
-import { AppComponent } from './app.component';
-import { environment } from "../environments/environment";
-import { AppRoutingModule } from "./app-routing.module";
-import { MaterialModule } from './material.module';
+import { AppComponent } from 'src/app/app.component';
+import { environment } from "src/environments/environment";
+import { AppRoutingModule } from "src/app/app-routing.module";
+import { MaterialModule } from 'src/app/material.module';
 
-import { AboutComponent } from "./pages/about/about.component";
+import { AboutComponent } from "src/app/pages/about/about.component";
 
-import { HomeComponent } from "./pages/home/home.component";
+import { HomeComponent } from "src/app/pages/home/home.component";
 
-import { AuthenticationComponent } from "./pages/user/authentication/authentication.component";
-import { RegisterComponent } from "./pages/user/register/register.component";
-import { ForgotPasswordComponent } from "./pages/user/forgot-password/forgot-password.component";
-import { ActionComponent } from "./pages/user/action/action.component";
-import { UserComponent } from "./pages/user/user/user.component";
+import { AuthenticationComponent } from "src/app/pages/user/authentication/authentication.component";
+import { RegisterComponent } from "src/app/pages/user/register/register.component";
+import { ForgotPasswordComponent } from "src/app/pages/user/forgot-password/forgot-password.component";
+import { ActionComponent } from "src/app/pages/user/action/action.component";
+import { UserComponent } from "src/app/pages/user/user/user.component";
 
-import { AdminComponent } from "./pages/admin/admin/admin.component";
-import { ChangePriceComponent } from './components/change-price/change-price.component';
-import { UploadComponent } from './components/upload/upload.component';
-import { ProductCarousellComponent } from './components/product-carousell/product-carousell.component';
-import { ProductCardComponent } from './components/product-card/product-card.component';
+import { AdminComponent } from "src/app/pages/admin/admin/admin.component";
+import { UploadComponent } from 'src/app/components/upload/upload.component';
+import { ProductCarousellComponent } from 'src/app/components/product-carousell/product-carousell.component';
+import { ProductCardComponent } from 'src/app/components/product-card/product-card.component';
+import { ChangeProductCatgoryComponent } from 'src/app/components/change-product-category/change-product-category.component';
+import { ChangeProductPriceComponent } from 'src/app/components/change-product-price/change-product-price.component';
+import { ChangeProductNameComponent } from './components/change-product-name/change-product-name.component';
+import { ChangeProductDescriptionComponent } from './components/change-product-description/change-product-description.component';
+
 
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
@@ -49,7 +53,10 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     ProductCarousellComponent,
     ProductCardComponent,
     UploadComponent,
-    ChangePriceComponent],
+    ChangeProductPriceComponent,
+    ChangeProductCatgoryComponent,
+    ChangeProductNameComponent,
+    ChangeProductDescriptionComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

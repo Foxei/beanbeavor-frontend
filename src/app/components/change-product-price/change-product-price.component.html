@@ -3,7 +3,7 @@
         <h2>Change price of {{name}} to:</h2>
         <mat-form-field class="btn-block" appearance="outline">
             <mat-label>Price</mat-label>
-            <input matInput matInput type="number" step=".01" min="0" max="999" formControlName="price">
+            <input #input matInput matInput type="number" step=".01" min="0" max="999" formControlName="price">
             <mat-icon matSuffix>euro</mat-icon>
             <mat-error *ngIf="form.hasError('required', 'price')">Enter valid product price.</mat-error>
             <mat-error *ngIf="form.hasError('max', 'price')">Entered price to high.</mat-error>

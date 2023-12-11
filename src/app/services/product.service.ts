@@ -70,7 +70,7 @@ export class ProductsService {
 
     getProductsOfCategory(category: string): Observable<Product[]> {
         return this.firestore
-            .collection('products', ref => ref.where('enabled', '==', true).where('category', '==', category))
+            .collection('products', ref => ref.where('enabled', '==', true).where('category', '==', category).orderBy('name', 'asc'))
             .snapshotChanges()
             .pipe(
                 map(actions => {
@@ -105,12 +105,54 @@ export class ProductsService {
                     price: price,
                     lastEditTime: Date.now().valueOf()
                 }, { merge: true });
-            this.snackbarSuccess("Price successfully changed to " + price + "€.")
+            this.snackbarSuccess("Price successfully changed to: " + price + "€.")
         } catch (err) {
             console.log(err);
         }
     }
 
+    //CREATE
+    async changeProductCategory(id: string, category: string): Promise<void> {
+        try {
+            await this.firestoreProductsCollection
+                .doc(id)
+                .set({
+                    category: category,
+                    lastEditTime: Date.now().valueOf()
+                }, { merge: true });
+            this.snackbarSuccess("Category successfully changed to: " + category + ".")
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    //CREATE
+    async changeProdcutName(id: string, name: string): Promise<void> {
+        try {
+            await this.firestoreProductsCollection
+                .doc(id)
+                .set({
+                    name: name,
+                    lastEditTime: Date.now().valueOf()
+                }, { merge: true });
+            this.snackbarSuccess("Name successfully changed to: " + name + ".")
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async changeProdcutDescription(id: string, description: string): Promise<void> {
+        try {
+            await this.firestoreProductsCollection
+                .doc(id)
+                .set({
+                    description: description,
+                    lastEditTime: Date.now().valueOf()
+                }, { merge: true });
+            this.snackbarSuccess("Description successfully changed to: " + description + ".")
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
 
     //ENDABLE
@@ -122,7 +164,7 @@ export class ProductsService {
                     enabled: enabled,
                     lastEditTime: Date.now().valueOf()
                 }, { merge: true });
-            this.snackbarSuccess("Product successfully " + (enabled?"enabled":"disabled") + ".")
+            this.snackbarSuccess("Product successfully " + (enabled ? "enabled" : "disabled") + ".")
         } catch (err) {
             console.log(err);
         }

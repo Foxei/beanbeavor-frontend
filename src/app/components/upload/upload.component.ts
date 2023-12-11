@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from "@angular/material/snack-bar";
 import { MatButton } from "@angular/material/button";
 import { FileUploadService, UploadableFile } from "src/app/services/file-upload.service";
-import { Image, Product, ProductsService } from 'src/app/services/product.service';
+import { Category, Image, Product, ProductsService } from 'src/app/services/product.service';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 
 @Component({
@@ -18,8 +18,13 @@ export class UploadComponent {
     name: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
     image: new FormControl('', [Validators.required]),
-    price: new FormControl('', [Validators.required, Validators.max(999), Validators.min(0)])
+    price: new FormControl('', [Validators.required, Validators.max(999), Validators.min(0)]),
+    category: new FormControl(this.data.category, [Validators.required]),
+    enabled: new FormControl(false, [])
   });
+
+  _categories: Category[] = [];
+
 
   selectedImage: UploadableFile = { preview: "", url: "", file: null, uploadProgress: 0 };
 
@@ -30,11 +35,18 @@ export class UploadComponent {
     private fileUploadService: FileUploadService,
     private productService: ProductsService,
     private elementRef: ElementRef) {
+    this.productService.categories$.subscribe((categories) => {
+      this._categories = categories;
+    });
   }
 
   public get valid(): boolean {
-    this.form.controls['image'].setValue(this.selectedImage.file?this.selectedImage.file.name:"");
+    this.form.controls['image'].setValue(this.selectedImage.file ? this.selectedImage.file.name : "");
     return this.form.valid;
+  }
+
+  public get categories(): Category[] {
+    return this._categories;
   }
 
   public select(event: any): void {
@@ -46,7 +58,7 @@ export class UploadComponent {
   }
 
   public onSubmitForm(): void {
-    if (!this.valid){return;}
+    if (!this.valid) { return; }
     this.form.disable();
     this.uploadAsset();
   }
@@ -57,16 +69,9 @@ export class UploadComponent {
 
       const product = this.form.value as Partial<Product>;
       product.image = image;
+      
       this.productService.addProduct(product).then(() => {
-        this.form.reset()
-        this.selectedImage.file = null;
-        this.selectedImage.preview = "";
-        this.selectedImage.uploadProgress = 0;
-        this.selectedImage.url = "";
-        this.form.enable();
         this.snackBarRef.dismiss();
-
-        // this.snackBar.open("Upload complete. Product is now availabe.", "Close")
       });
     })
   }

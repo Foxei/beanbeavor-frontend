@@ -3,42 +3,37 @@ import { MatPaginator } from '@angular/material/paginator';
 import { tap } from 'rxjs';
 import { ProductsService, Product } from 'src/app/services/product.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ChangePriceComponent } from 'src/app/components/change-price/change-price.component';
+import { ChangeProductPriceComponent } from 'src/app/components/change-product-price/change-product-price.component';
 import { UploadComponent } from 'src/app/components/upload/upload.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { ChangeProductCatgoryComponent } from 'src/app/components/change-product-category/change-product-category.component';
+import { ChangeProductNameComponent } from 'src/app/components/change-product-name/change-product-name.component';
+import { ChangeProductDescriptionComponent } from 'src/app/components/change-product-description/change-product-description.component';
 
 @Component({
   selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  templateUrl: './admin.component.html'
 })
 
 export class AdminComponent {
-  @ViewChild('paginator', { static: false }) paginator!: MatPaginator;
-  displayedProducts: Product[] = [];
-  paginatedProducts: Product[] = [];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private bottomSheet: MatBottomSheet, private productService: ProductsService) {}
+  displayedColumns: string[] = ['name', 'description', 'price', 'category', 'actions'];
+  products: Product[] = [];
+  dataSource = new MatTableDataSource(this.products);
 
+  constructor(private bottomSheet: MatBottomSheet, private productService: ProductsService) { }
 
-  public updatePaginatedObject() {
-    const index = this.paginator.pageIndex;
-    const size = this.paginator.pageSize;
-    const distanceToEnd = this.displayedProducts.length - ((index + 1) * size);
-    const iterations = size + Math.min(distanceToEnd, 0);
-
-    this.paginatedProducts = this.paginatedProducts.slice(0, iterations);
-    for (let i = 0; i < iterations; i++) {
-      let targetIndex = i + (index * size);
-      this.paginatedProducts[i] = this.displayedProducts[targetIndex];
-    }
-  }
-
-  public disableProduct(id: string) {
+  public disableProduct(product: Product) {
+    const id = product.id;
     this.productService.enableProduct(id, false);
   }
 
-  public enableProduct(id: string) {
+  public enableProduct(product: Product) {
+    const id = product.id;
     this.productService.enableProduct(id, true);
   }
 
@@ -48,30 +43,58 @@ export class AdminComponent {
     });
   }
 
-  public changePrice(id: string, name: string, price: number) {
-    this.bottomSheet.open(ChangePriceComponent, {
-      data: {name, id, price} 
+  public changePrice(product: Product) {
+    const name = product.name;
+    const id = product.id;
+    const price = product.price;
+    this.bottomSheet.open(ChangeProductPriceComponent, {
+      data: { name, id, price }
     });
+  }
+
+  public changeCategory(product: Product) {
+    const name = product.name;
+    const id = product.id;
+    const category = product.category;
+    this.bottomSheet.open(ChangeProductCatgoryComponent, {
+      data: { name, id, category }
+    });
+  }
+
+
+  public changeName(product: Product) {
+    const name = product.name;
+    const id = product.id;
+    this.bottomSheet.open(ChangeProductNameComponent, {
+      data: { name, id }
+    });
+  }
+
+  public changeDescription(product: Product) {
+    const name = product.name;
+    const id = product.id;
+    const description = product.description;
+    this.bottomSheet.open(ChangeProductDescriptionComponent, {
+      data: { name, id, description }
+    });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   ngAfterViewInit() {
     this.productService.products$.subscribe((products) => {
-      for (let i = 0; i < products.length; i++) {
-        if (this.displayedProducts.length - 1 < i) {
-          this.displayedProducts.push(products[i]);
-        } else if (this.displayedProducts[i].id != products[i].id) {
-          this.displayedProducts[i] = products[i];
-        } else {
-          this.displayedProducts[i].description = products[i].description;
-          this.displayedProducts[i].name = products[i].name;
-          this.displayedProducts[i].enabled = products[i].enabled;
-          this.displayedProducts[i].price = products[i].price;
-        }
-      }
-      this.updatePaginatedObject();
+      this.products = products;
+      this.dataSource.data = products;
     });
-
-    this.paginator.page.pipe(tap(() => this.updatePaginatedObject())).subscribe();
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 }
 

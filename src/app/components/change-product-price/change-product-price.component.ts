@@ -1,9 +1,9 @@
-import { Component, Inject } from '@angular/core';
+import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { ProductsService } from 'src/app/services/product.service';
 
-export interface ChangePriceComponentDate {
+export interface ChangeProductPriceComponentDate {
   name: string;
   id: string;
   price: number;
@@ -11,16 +11,21 @@ export interface ChangePriceComponentDate {
 
 @Component({
   selector: 'app-message-card',
-  templateUrl: './change-price.component.html',
-  styleUrls: ['./change-price.component.css']
+  templateUrl: './change-product-price.component.html'
 })
-export class ChangePriceComponent {
+export class ChangeProductPriceComponent {
+  @ViewChild('input') input: ElementRef;
+
   form = new FormGroup({
     price: new FormControl(this.data.price, [Validators.required, Validators.max(999), Validators.min(0)])
   });
 
-  constructor(public snackBarRef: MatBottomSheetRef<ChangePriceComponent>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data: ChangePriceComponentDate, private productService: ProductsService) {
+  constructor(public snackBarRef: MatBottomSheetRef<ChangeProductPriceComponent>,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: ChangeProductPriceComponentDate, private productService: ProductsService) {
+  }
+
+  ngAfterViewInit(): void {
+    this.input.nativeElement.focus();
   }
 
   public get valid(): boolean {

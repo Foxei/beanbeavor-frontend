@@ -1,0 +1,16 @@
+<div fxLayout="column">
+    <form [formGroup]="form" (ngSubmit)="onSubmitForm()">
+        <h2>Change description of {{name}} to:</h2>
+        <mat-form-field class="btn-block" appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea #descriptionInput matInput rows="5" formControlName="description" placeholder="Product description"
+              maxlength="700"></textarea>
+            <mat-error *ngIf="form.hasError('required', 'description')">Enter product description.</mat-error>
+            <mat-hint align="end">{{descriptionInput.value.length}} / 700</mat-hint>
+          </mat-form-field>
+    </form>
+    <div fxLayout="row">
+        <button mat-button class="btn-block" [disabled]="!valid" (click)="onSubmitForm()" color="accent">Submit</button>
+        <button mat-button class="btn-block" (click)="snackBarRef.dismiss()" color="warn">Close</button>
+    </div>
+</div>
