@@ -147,29 +147,29 @@ export class AuthenticationService {
       })
   }
 
-  googleLogin() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    return this.oAuthLogin(provider)
-      .then(value => {
-        console.log('Sucess', value);
-      })
-      .catch(error => {
-        console.log('Something went wrong: ', error);
-      });
-  }
+  // googleLogin() {
+  //   const provider = new firebase.auth.GoogleAuthProvider();
+  //   return this.oAuthLogin(provider)
+  //     .then(value => {
+  //       console.log('Sucess', value);
+  //     })
+  //     .catch(error => {
+  //       console.log('Something went wrong: ', error);
+  //     });
+  // }
 
-  private oAuthLogin(provider: any) {
-    return this.fireAuth.signInWithPopup(provider).then((result) => {
-      if (result.user) {
-        if (!result.user.emailVerified) this.sendVerificationMail();
-        this.updateUserData(result.user).then();
-      } else {
-        window.alert('user not found')
-      }
-    }).catch((error) => {
-      window.alert(error.message)
-    });
-  }
+  // private oAuthLogin(provider: any) {
+  //   return this.fireAuth.signInWithPopup(provider).then((result) => {
+  //     if (result.user) {
+  //       if (!result.user.emailVerified) this.sendVerificationMail();
+  //       this.updateUserData(result.user).then();
+  //     } else {
+  //       window.alert('user not found')
+  //     }
+  //   }).catch((error) => {
+  //     window.alert(error.message)
+  //   });
+  // }
 
   public signOut() {
     return this.fireAuth.signOut().then(() => {

@@ -40,7 +40,7 @@ export class AuthenticationComponent {
     });
   }
 
-  loginWithGoogle() {
-    this._authenticationService.googleLogin();
-  }
+  // loginWithGoogle() {
+  //   this._authenticationService.googleLogin();
+  // }
 }

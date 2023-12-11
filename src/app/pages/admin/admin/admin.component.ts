@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ChangeProductPriceComponent } from 'src/app/components/change-product-price/change-product-price.component';
 import { UploadComponent } from 'src/app/components/upload/upload.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ChangeProductCatgoryComponent } from 'src/app/components/change-product-category/change-product-category.component';
 import { ChangeProductNameComponent } from 'src/app/components/change-product-name/change-product-name.component';
@@ -21,7 +21,7 @@ export class AdminComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['name', 'description', 'price', 'category', 'actions'];
+  displayedColumns: string[] = ['picture', 'name', 'description', 'price', 'category', 'actions'];
   products: Product[] = [];
   dataSource = new MatTableDataSource(this.products);
 
@@ -59,6 +59,10 @@ export class AdminComponent {
     this.bottomSheet.open(ChangeProductCatgoryComponent, {
       data: { name, id, category }
     });
+  }
+
+  public changeImage(product: Product) {
+
   }
 
 
