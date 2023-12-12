@@ -3,6 +3,7 @@ import { map } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { FileUploadService } from './file-upload.service';
 
 export interface Category {
     id: string;
@@ -38,7 +39,7 @@ export class ProductsService {
 
     private _productStatistic: ProductDatabaseStatistic = new ProductDatabaseStatistic();
 
-    constructor(private firestore: AngularFirestore, private snackbar: MatSnackBar) {
+    constructor(private firestore: AngularFirestore, private snackbar: MatSnackBar, private fileUploadService: FileUploadService) {
         this.products$.subscribe((products) => {
             this._productStatistic.numberOfProducts = products.length;
         });
@@ -165,6 +166,24 @@ export class ProductsService {
                     lastEditTime: Date.now().valueOf()
                 }, { merge: true });
             this.snackbarSuccess("Product successfully " + (enabled ? "enabled" : "disabled") + ".")
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async changeProductImage(id: string, imageFile: any): Promise<void> {
+
+        try {
+            await this.fileUploadService.uploadFile(imageFile).then(() => {
+                let image = { url: imageFile.url, name: imageFile.file!.name };
+                this.firestoreProductsCollection
+                    .doc(id)
+                    .set({
+                        image: image,
+                        lastEditTime: Date.now().valueOf()
+                    }, { merge: true });
+                this.snackbarSuccess("Product image successfully updated.")
+            });
         } catch (err) {
             console.log(err);
         }

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { tap } from 'rxjs';
 import { ProductsService, Product } from 'src/app/services/product.service';
@@ -11,6 +11,8 @@ import { MatSort } from '@angular/material/sort';
 import { ChangeProductCatgoryComponent } from 'src/app/components/change-product-category/change-product-category.component';
 import { ChangeProductNameComponent } from 'src/app/components/change-product-name/change-product-name.component';
 import { ChangeProductDescriptionComponent } from 'src/app/components/change-product-description/change-product-description.component';
+import { UploadableFile } from 'src/app/services/file-upload.service';
+import { ChangeProductImageComponent } from 'src/app/components/change-product-image/change-product-image.component';
 
 @Component({
   selector: 'app-admin',
@@ -20,6 +22,7 @@ import { ChangeProductDescriptionComponent } from 'src/app/components/change-pro
 export class AdminComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('fileUpload') fileUpload: ElementRef;
 
   displayedColumns: string[] = ['picture', 'name', 'description', 'price', 'category', 'actions'];
   products: Product[] = [];
@@ -62,9 +65,12 @@ export class AdminComponent {
   }
 
   public changeImage(product: Product) {
-
+    const name = product.name;
+    const id = product.id;
+    this.bottomSheet.open(ChangeProductImageComponent, {
+      data: { name, id }
+    });
   }
-
 
   public changeName(product: Product) {
     const name = product.name;

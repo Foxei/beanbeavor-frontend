@@ -34,6 +34,7 @@ import { ChangeProductCatgoryComponent } from 'src/app/components/change-product
 import { ChangeProductPriceComponent } from 'src/app/components/change-product-price/change-product-price.component';
 import { ChangeProductNameComponent } from './components/change-product-name/change-product-name.component';
 import { ChangeProductDescriptionComponent } from './components/change-product-description/change-product-description.component';
+import { ChangeProductImageComponent } from './components/change-product-image/change-product-image.component';
 
 
 
@@ -56,6 +57,7 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     ChangeProductPriceComponent,
     ChangeProductCatgoryComponent,
     ChangeProductNameComponent,
+    ChangeProductImageComponent,
     ChangeProductDescriptionComponent],
   imports: [
     BrowserModule,
