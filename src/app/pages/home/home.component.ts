@@ -5,7 +5,8 @@ import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
   categories: Category[] = [];
@@ -14,6 +15,8 @@ export class HomeComponent {
   _totalInCart: number = 0;
 
   _showCart: boolean = false;
+
+  _checkingOut: boolean = false;
 
   constructor(private productService: ProductsService, public shoppingCartService: CartService) { }
 
@@ -36,12 +39,22 @@ export class HomeComponent {
     return this.shoppingCartService.total;
   }
 
+  public checkout(): void {
+    this._checkingOut = true;
+    this.shoppingCartService.checkout();
+    this._checkingOut = false;
+  }
+
   public clear(): void {
     this.shoppingCartService.clear();
   }
 
   public get showCart(): boolean{
     return this._showCart;
+  }
+
+  public get checkingOut(): boolean{
+    return this._checkingOut;
   }
 
   public toogleCart(): void {

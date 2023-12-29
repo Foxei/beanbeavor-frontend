@@ -1,10 +1,10 @@
-<div class="fixed flex flex-row justify-center top-3 left-0 right-0 pointer-events-none">
+<div class="fixed flex flex-row justify-center top-3 left-0 right-0 pointer-events-none invisible md:visible">
   <mat-chip class="m-1 pointer-events-auto" *ngFor="let category of categories"
     (click)="scroll(category.name)">{{category.name}}</mat-chip>
 </div>
 
 <div class="absolute top-16 left-0 right-0 bottom-0 flex flex-row justify-center gap-4">
-  <div class="overflow-scroll w-full">
+  <div class="overflow-y-scroll w-full no-scrollbar">
     <div *ngFor="let category of categories" attr.id="{{category.name}}">
       <product-carousell [category]="category.name"></product-carousell>
     </div>
@@ -42,8 +42,8 @@
   </mat-card>
   <mat-card class="mat-elevation-z8 z-50">
     <mat-card-actions class="gap-3">
-      <button mat-flat-button color="accent"
-        [disabled]="this.shoppingCartService.products.length == 0"><mat-icon>payments</mat-icon>Checkout
+      <button mat-flat-button color="accent" (click)="checkout()"
+        [disabled]="this.shoppingCartService.products.length == 0 || checkingOut"><mat-icon>payments</mat-icon>Checkout
       </button>
       <button mat-flat-button (click)="toogleCart()">
         <strong>{{total | currency:'EUR':'symbol':'1.2':'de-DE'}}</strong>

@@ -1,0 +1,10 @@
+  .bell{
+    animation: ring 0.5s ease-in-out 1;
+  }
+
+  @keyframes ring {
+    20% { transform: rotate(30deg); }
+    60% { transform: rotate(30deg); }
+    40% { transform: rotate(-30deg); }
+    80% { transform: rotate(-30deg); }
+  }

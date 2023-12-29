@@ -1,0 +1,38 @@
+<div class="flex flex-col">
+  <form [formGroup]="form" (ngSubmit)="onSubmitForm()" (keydown.enter)="$event.preventDefault()">
+    <h2>Upload a new transaction to the database:</h2>
+    <mat-form-field class="btn-block" appearance="outline">
+      <mat-label>Product</mat-label>
+      <input #titleInput formControlName="product" matInput maxlength="85" placeholder="Product name" type="text">
+      <mat-error *ngIf="form.hasError('required', 'product')">Enter product name.</mat-error>
+      <mat-hint align="end">{{titleInput.value.length}} / 85</mat-hint>
+    </mat-form-field>
+
+    <div class="flex flex-row gap-4">
+
+        <mat-form-field class="btn-block" appearance="outline" >
+          <mat-label>User</mat-label>
+          <mat-select placeholder="User" formControlName="user">
+              <mat-option *ngFor="let user of users" [value]="user.id">{{user.displayName}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.hasError('required', 'user')">Enter valid user.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="btn-block" appearance="outline" formControlName="price">
+        <mat-label>Price</mat-label>
+        <input matInput formControlName="price" matInput max="999" min="000" placeholder="0,00" type="number"
+          step=".01">
+        <mat-icon matSuffix>euro</mat-icon>
+        <mat-error *ngIf="form.hasError('required', 'price')">Enter valid product price.</mat-error>
+        <mat-error *ngIf="form.hasError('max', 'price')">Entered price to high.</mat-error>
+        <mat-error *ngIf="form.hasError('min', 'price')">Entered price to low.</mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+
+  <div class="flex flex-row">
+    <button mat-button class="btn-block" [disabled]="!valid" (click)="onSubmitForm()" color="accent">Submit</button>
+    <button mat-button class="btn-block" (click)="snackBarRef.dismiss()" color="warn">Close</button>
+  </div>
+
+</div>

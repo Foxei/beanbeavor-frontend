@@ -1,4 +1,4 @@
-<div fxLayout="column">
+<div class="flex flex-col">
     <form [formGroup]="form" (ngSubmit)="onSubmitForm()">
         <h2>Change image of {{name}} to:</h2>
         <!-- <mat-form-field class="btn-block" appearance="outline">
@@ -11,8 +11,8 @@
         </mat-form-field> -->
         <mat-grid-list cols="1" rowHeight="1:1">
             <mat-grid-tile [style]="'background-size: cover;background-image: url(\'' + selectedImage.preview + '\')'">
-              <div fxLayout="column" fxLayoutAlign="end center" fxFlexFill>
-                <div style="height: 100%;" fxLayout="column" fxLayoutAlign="center center"></div>
+              <div class="flex flex-col">
+                <div style="height: 100%;" class="flex flex-col"></div>
                 <mat-progress-bar mode="determinate" color="accent"
                   [value]="selectedImage.uploadProgress"></mat-progress-bar>
               </div>
@@ -23,7 +23,7 @@
           <button (click)="input.click()" class="btn-block" color="accent" mat-flat-button>Add Image</button>
   
     </form>
-    <div fxLayout="row">
+    <div class="flex flex-row">
         <button mat-button class="btn-block" [disabled]="!valid" (click)="onSubmitForm()" color="accent">Submit</button>
         <button mat-button class="btn-block" (click)="snackBarRef.dismiss()" color="warn">Close</button>
     </div>

@@ -1,6 +1,5 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from "@angular/fire/compat";
 import { AngularFireAuthModule } from "@angular/fire/compat/auth";
@@ -35,7 +34,10 @@ import { ChangeProductPriceComponent } from 'src/app/components/change-product-p
 import { ChangeProductNameComponent } from './components/change-product-name/change-product-name.component';
 import { ChangeProductDescriptionComponent } from './components/change-product-description/change-product-description.component';
 import { ChangeProductImageComponent } from './components/change-product-image/change-product-image.component';
-
+import { AdminTransctionsComponent } from './components/admin-transactions/admin-transactions.component';
+import { AdminProdcutsComponent } from './components/admin-products/admin-products.component';
+import { CurrencyPipe } from '@angular/common';
+import { AddTransactionComponent } from './components/add-transaction/add-transaction.component';
 
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
@@ -58,13 +60,15 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     ChangeProductCatgoryComponent,
     ChangeProductNameComponent,
     ChangeProductImageComponent,
-    ChangeProductDescriptionComponent],
+    ChangeProductDescriptionComponent,
+    AdminTransctionsComponent,
+    AdminProdcutsComponent,
+    AddTransactionComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     MaterialModule,
-    FlexLayoutModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     FormsModule,

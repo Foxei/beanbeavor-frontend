@@ -6,6 +6,8 @@ import { FileUploadService, UploadableFile } from "src/app/services/file-upload.
 import { Category, Image, Product, ProductsService } from 'src/app/services/product.service';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 
+
+
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',

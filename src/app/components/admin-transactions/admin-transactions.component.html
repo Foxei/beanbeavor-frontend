@@ -1,0 +1,78 @@
+<div class="flex flex-col pt-4">
+    <div class="flex flex-row gap-4 items-baseline">
+      <mat-form-field appearance="outline" class="grow">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Keyword" #input>
+      </mat-form-field>
+      <button mat-fab color="primary" (click)="addTransaction()"><mat-icon>add</mat-icon></button>
+    </div>
+  
+    <div>
+      <table mat-table [dataSource]="dataSource" matSort>
+  
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> Date </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="flex flex-row justify-between items-center">
+              <span class="clamp-to-one-line">{{creationDateDisplay(element)}}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="time">
+          <th mat-header-cell *matHeaderCellDef> Time </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="flex flex-row justify-between items-center">
+              <span class="clamp-to-one-line">{{creationTimeDisplay(element)}}</span>
+            </div>
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="user">
+          <th mat-header-cell *matHeaderCellDef> User </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="flex flex-row justify-between items-center">
+              <span class="clamp-to-one-line">{{userNameDisplay(element)}}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="product">
+          <th mat-header-cell *matHeaderCellDef> Product </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="flex flex-row justify-between items-center">
+              <span class="clamp-to-one-line">{{element.product.name}}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef> Total </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="flex flex-row justify-between items-center">
+              <span class="clamp-to-one-line">{{element.product.price | currency:'EUR':'symbol':'2.2':'de-DE'}}</span>
+            </div>
+          </td>
+        </ng-container>
+  
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="flex flex-row gap-2">
+              <button mat-icon-button (click)="deleteTransaction(element)"><mat-icon>delete</mat-icon></button>
+            </div>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    <mat-paginator [pageSizeOptions]="[15, 25, 50, 100]"></mat-paginator>
+  </div>
+  
+  <div class="fixed right-3 bottom-3 flex flex-col gap-3 ">
+  
+  
+  </div>

@@ -1,4 +1,4 @@
-<div fxLayout="column">
+<div class="flex flex-col">
     <form [formGroup]="form" (ngSubmit)="onSubmitForm()">
         <h2>Change price of {{name}} to:</h2>
         <mat-form-field class="btn-block" appearance="outline">
@@ -10,7 +10,7 @@
             <mat-error *ngIf="form.hasError('min', 'price')">Entered price to low.</mat-error>
         </mat-form-field>
     </form>
-    <div fxLayout="row">
+    <div class="flex flex-row">
         <button mat-button class="btn-block" [disabled]="!valid" (click)="onSubmitForm()" color="accent">Submit</button>
         <button mat-button class="btn-block" (click)="snackBarRef.dismiss()" color="warn">Close</button>
     </div>

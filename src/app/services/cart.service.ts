@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Product } from './product.service';
-import { interval } from 'rxjs';
-
-export interface ShoppingCart {
-    id: string;
-    creationTime: number;
-}
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AuthenticationService } from './authentication.service';
+import { Transaction, TransactionItem, TransactionsService } from './transactions.service';
 
 @Injectable({
     providedIn: 'root'
@@ -14,11 +11,13 @@ export interface ShoppingCart {
 export class CartService {
 
     _products$: Product[] = [];
-    audio: HTMLAudioElement = new Audio('../assets/ui_tap-variant-01.wav');
-    // src/assets/navigation_selection-complete-celebration.wav
-    constructor(private snackbar: MatSnackBar) {
+    firestoreCollection = this.firestore.collection('transactions', ref => ref.orderBy('creationTime', 'asc'));
 
-    };
+    constructor(
+        private firestore: AngularFirestore,
+        private snackbar: MatSnackBar,
+        private userService: AuthenticationService,
+        private _transactionService: TransactionsService) { };
 
     public add(data: Product): void {
         this._products$.push(data);
@@ -26,7 +25,6 @@ export class CartService {
 
     public clear(): void {
         this._products$ = [];
-        this.audio.play();
     }
 
     public get products(): Product[] {
@@ -40,8 +38,16 @@ export class CartService {
         }, 0);
     }
 
-
-
+    async checkout(): Promise<void> {
+        let data: Partial<Transaction> = {};
+        data.user = this.userService.userReference;
+        for (let product of this.products) {
+            let item: TransactionItem = { name: product.name, price: product.price };
+            data.product = item;
+            this._transactionService.addTransaction(data);
+        }
+        this.clear();
+    }
 
 
     private configSuccess: MatSnackBarConfig = {

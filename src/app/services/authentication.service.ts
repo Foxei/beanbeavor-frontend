@@ -3,11 +3,12 @@ import {Injectable} from '@angular/core';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {AngularFirestore, AngularFirestoreDocument} from "@angular/fire/compat/firestore";
 import {Router} from "@angular/router";
-import {Observable, of, switchMap} from "rxjs";
+import {Observable, firstValueFrom, of, switchMap} from "rxjs";
 import {md5} from './md5';
+import { map } from 'rxjs/operators';
 
 export interface User {
-  uid: string;
+  id: string;
   email: string;
   displayName: string;
   photoURL: string;
@@ -56,13 +57,33 @@ export class AuthenticationService {
       this.user = user;
     });
   }
+  firestoreUsersCollection = this.firestore.collection('users', ref => ref.orderBy('displayName', 'asc'));
+
+  users$ = this.firestoreUsersCollection.snapshotChanges().pipe(
+    map(actions => {
+        return actions.map(p => {
+            const users = p.payload.doc;
+            const id = users.id;
+            return { id, ...(users.data() as Record<string, unknown>) } as User;
+        });
+    })
+);
 
   public get currentUser() {
     return this.user;
   }
 
+
+  getUser(uid: string) {
+    return this.firestore.doc<User>(`users/${uid}`).get();
+  }
+
   public get userReference() {
-    return this.firestore.doc<User>("users/" + this.user!.uid).ref;
+    return this.firestore.doc<User>("users/" + this.user!.id).ref;
+  }
+
+  public getUserReferenceButID(uid: string) {
+    return this.firestore.doc<User>("users/" + uid).ref;
   }
 
   get authenticationState(): Observable<firebase.User | null> {
@@ -212,7 +233,7 @@ export class AuthenticationService {
   private updateUserData(user: firebase.User) {
     const userRef: AngularFirestoreDocument<User> = this.firestore.doc(`users/${user.uid}`);
     const userData: Partial<User> = {
-      uid: user.uid,
+      id: user.uid,
       email: <string>user.email,
       displayName: <string>user.displayName,
       photoURL: <string>user.photoURL,
@@ -226,7 +247,7 @@ export class AuthenticationService {
   private createUserData(user: firebase.User) {
     const userRef: AngularFirestoreDocument<User> = this.firestore.doc(`users/${user.uid}`);
     const userData: User = {
-      uid: user.uid,
+      id: user.uid,
       email: <string>user.email,
       displayName: <string>user.displayName,
       photoURL: <string>user.photoURL,
