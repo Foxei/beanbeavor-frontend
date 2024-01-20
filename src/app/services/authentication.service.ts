@@ -16,7 +16,7 @@ export interface User {
   role: string;
   verified: boolean;
   creationTime: string;
-  lastSignInTime: string;
+  lastSignInTime: number;
 }
 
 @Injectable({
@@ -239,7 +239,7 @@ export class AuthenticationService {
       photoURL: <string>user.photoURL,
       emailVerified: user.emailVerified,
       creationTime: user.metadata.creationTime,
-      lastSignInTime: user.metadata.lastSignInTime
+      lastSignInTime: Date.now().valueOf()
     }
     return userRef.update(userData);
   }
@@ -255,7 +255,7 @@ export class AuthenticationService {
       role: "user",
       verified: false,
       creationTime: user.metadata.creationTime ? user.metadata.creationTime : '',
-      lastSignInTime: user.metadata.lastSignInTime ? user.metadata.lastSignInTime : ''
+      lastSignInTime: Date.now().valueOf()
     }
     return userRef.set(userData, {merge: true});
 

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
-  selector: 'app-user',
+  selector: 'bb-user',
   templateUrl: './user.component.html'
 })
 export class UserComponent {
@@ -28,7 +28,9 @@ export class UserComponent {
   }
 
   get lastSignInTime(): string {
-    return this.currentUser ? this.currentUser.lastSignInTime : '';
+    let time = this.currentUser ? this.currentUser.lastSignInTime : 0;
+    const date = new Date(time);
+    return date.toLocaleString();
   }
 
   get isVerified(): boolean {

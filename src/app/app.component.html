@@ -30,10 +30,14 @@
       <mat-icon>login</mat-icon>
     </button>
 
-    <button mat-icon-button aria-label="Button to access user profile" [routerLink]="['action']"
-      [queryParams]="{mode: 'user'}" *ngIf="this.isSignedIn">
+    <button mat-icon-button aria-label="Button to access user profile" [matMenuTriggerFor]="menu" *ngIf="this.isSignedIn">
       <mat-icon>account_circle</mat-icon>
     </button>
+
+    <mat-menu #menu="matMenu">
+      <bb-user></bb-user>
+    </mat-menu>
+
   </mat-toolbar-row>
 
 </mat-toolbar>
