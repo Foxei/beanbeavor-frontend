@@ -38,6 +38,7 @@ import { AdminTransctionsComponent } from './components/admin-transactions/admin
 import { AdminProdcutsComponent } from './components/admin-products/admin-products.component';
 import { CurrencyPipe } from '@angular/common';
 import { AddTransactionComponent } from './components/add-transaction/add-transaction.component';
+import { KioskComponent } from './pages/kiosk/kiosk.component';
 
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
@@ -48,6 +49,7 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     HomeComponent,
     AboutComponent,
     AdminComponent,
+    KioskComponent,
     AuthenticationComponent,
     RegisterComponent,
     ForgotPasswordComponent,

@@ -8,12 +8,15 @@ import {ActionComponent} from "./pages/user/action/action.component";
 
 import {AuthenticationGuard} from "./services/authentication-guard.service";
 import { AdminGuard } from './services/admin-guard.service';
+import { KioskComponent } from './pages/kiosk/kiosk.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent, canActivate: [AuthenticationGuard]},
   {path: 'about', component: AboutComponent, canActivate: [AuthenticationGuard]},
   {path: 'admin', component: AdminComponent, canActivate: [AdminGuard]},
   {path: 'action', component: ActionComponent},
+  {path: 'kiosk', component: KioskComponent},
+
   {path: '**', redirectTo: 'home' }
 ];
 

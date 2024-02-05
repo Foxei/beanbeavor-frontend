@@ -112,3 +112,16 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance:textfield; /* Firefox */
 }
+
+.flag {
+  background-color: #00549f;
+  width: 400px;
+  padding-top: 2rem;
+  padding-bottom: 0.5rem;
+  z-index: 100;
+}
+
+
+.icon {
+  width: 48px;
+}

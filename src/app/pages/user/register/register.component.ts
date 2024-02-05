@@ -29,7 +29,6 @@ export class RegisterComponent implements OnInit {
   public register(): void {
     if (!this.isValid()) return;
     this._authenticationService.signUp(this.emailFormControl.value!, this.passwordFormControl.value!, this.usernameFormControl.value!).then(res => {
-      //TODO Redirect on success
       console.log('success');
     }).catch(err => {
       this.passwordFormControl.setValue("");

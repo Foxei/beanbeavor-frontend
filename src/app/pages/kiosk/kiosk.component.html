@@ -1,0 +1,43 @@
+<div class="flex flex-row justify-end p-4 fixed top-16 bottom-0 left-0 right-0 gap-4 bean bean-background">
+  <div class="flex flex-col justify-center items-center w-full">
+    <mat-card class="w-full">
+      <mat-card-content>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="flex flex-col justify-center items-center">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Who is buying today?</mat-card-title>
+        <!-- <mat-card-subtitle>Use your three-digit pin to credit your purchase<br>to your account.</mat-card-subtitle> -->
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="onSubmitForm()">
+        <div class="grid grid-cols-3 gap-4 pin-pad pt-4">
+          <mat-form-field class="col-span-3 pin-pad-input btn-block" appearance="outline">
+            <mat-label>Pin</mat-label>
+            <input #input matInput type="number" step="1" min="1" max="999" formControlName="pin">
+            <mat-hint>Use your three-digit pin to login.</mat-hint>
+            <mat-error *ngIf="form.hasError('required', 'pin')">Enter valid login pin.</mat-error>
+            <mat-error *ngIf="form.hasError('max', 'pin')">Entered pin to long.</mat-error>
+            <mat-error *ngIf="form.hasError('min', 'pin')">Entered pin to short.</mat-error>
+          </mat-form-field>
+          <button mat-flat-button color="accent" class="order-last" type="submit" (click)="onSubmitForm()"><mat-icon>login</mat-icon></button>
+
+          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputNumber(7)">7</button>
+          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputNumber(8)">8</button>
+          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputNumber(9)">9</button>
+          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputNumber(4)">4</button>
+          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputNumber(5)">5</button>
+          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputNumber(6)">6</button>
+          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputNumber(1)">1</button>
+          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputNumber(2)">2</button>
+          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputNumber(3)">3</button>
+          <button mat-flat-button color="accent" class="col-span-2" (click)="catering()"><mat-icon>local_drink</mat-icon>Bewirtung</button>
+        </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

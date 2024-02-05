@@ -11,18 +11,28 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class ForgotPasswordComponent {
   emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  recaptchaFormControl = new FormControl('', [Validators.required]);
 
-  constructor(private _router: Router, private _authenticationService: AuthenticationService) { }
+  constructor( private _authenticationService: AuthenticationService, private _snackBar: MatSnackBar) { }
 
   public isValid(): boolean {
     if (this.emailFormControl.invalid) return false;
-    if (this.recaptchaFormControl.invalid) return false;
     return true;
   }
 
   public requestPasswordReset(){
-
+    if (!this.isValid()) return;
+    this._authenticationService.forgotPassword(this.emailFormControl.value!).then(res => {
+      this._snackBar.open("If your email is associatied to an existing account we have send you an email.", "Close", {
+        horizontalPosition: "center",
+        verticalPosition: "top"
+      });
+    }).catch(err => {
+      this.emailFormControl.setValue("");
+      this._snackBar.open("Somthing went wrong we could not send you an email.", "Close", {
+        horizontalPosition: "center",
+        verticalPosition: "top"
+      });
+    });
   }
 
 }
