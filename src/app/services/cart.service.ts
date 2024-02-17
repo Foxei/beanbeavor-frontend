@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Product } from './product.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AuthenticationService } from './authentication.service';
@@ -15,7 +14,6 @@ export class CartService {
 
     constructor(
         private firestore: AngularFirestore,
-        private snackbar: MatSnackBar,
         private userService: AuthenticationService,
         private _transactionService: TransactionsService) { };
 
@@ -47,24 +45,5 @@ export class CartService {
             this._transactionService.addTransaction(data);
         }
         this.clear();
-    }
-
-
-    private configSuccess: MatSnackBarConfig = {
-        panelClass: ['style-success'],
-        duration: 2000
-    };
-
-    private configError: MatSnackBarConfig = {
-        panelClass: ['style-error'],
-        duration: 2000
-    };
-
-    public snackbarSuccess(message: string) {
-        this.snackbar.open(message, 'Close', this.configSuccess);
-    }
-
-    public snackbarError(message: string) {
-        this.snackbar.open(message, 'Close', this.configError);
     }
 }

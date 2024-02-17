@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { FileUploadService } from './file-upload.service';
+import { MessageService } from './message.service';
 
 export interface Category {
     id: string;
@@ -39,7 +40,10 @@ export class ProductsService {
 
     private _productStatistic: ProductDatabaseStatistic = new ProductDatabaseStatistic();
 
-    constructor(private firestore: AngularFirestore, private snackbar: MatSnackBar, private fileUploadService: FileUploadService) {
+    constructor(
+        private firestore: AngularFirestore,
+        private fileUploadService: FileUploadService,
+        private __messageService: MessageService) {
         this.products$.subscribe((products) => {
             this._productStatistic.numberOfProducts = products.length;
         });
@@ -106,7 +110,7 @@ export class ProductsService {
                     price: price,
                     lastEditTime: Date.now().valueOf()
                 }, { merge: true });
-            this.snackbarSuccess("Price successfully changed to: " + price + "€.")
+            this.__messageService.snackbarSuccess("Price successfully changed to: " + price + "€.")
         } catch (err) {
             console.log(err);
         }
@@ -121,7 +125,7 @@ export class ProductsService {
                     category: category,
                     lastEditTime: Date.now().valueOf()
                 }, { merge: true });
-            this.snackbarSuccess("Category successfully changed to: " + category + ".")
+            this.__messageService.snackbarSuccess("Category successfully changed to: " + category + ".")
         } catch (err) {
             console.log(err);
         }
@@ -135,7 +139,7 @@ export class ProductsService {
                     name: name,
                     lastEditTime: Date.now().valueOf()
                 }, { merge: true });
-            this.snackbarSuccess("Name successfully changed to: " + name + ".")
+            this.__messageService.snackbarSuccess("Name successfully changed to: " + name + ".")
         } catch (err) {
             console.log(err);
         }
@@ -149,7 +153,7 @@ export class ProductsService {
                     description: description,
                     lastEditTime: Date.now().valueOf()
                 }, { merge: true });
-            this.snackbarSuccess("Description successfully changed to: " + description + ".")
+            this.__messageService.snackbarSuccess("Description successfully changed to: " + description + ".")
         } catch (err) {
             console.log(err);
         }
@@ -165,7 +169,7 @@ export class ProductsService {
                     enabled: enabled,
                     lastEditTime: Date.now().valueOf()
                 }, { merge: true });
-            this.snackbarSuccess("Product successfully " + (enabled ? "enabled" : "disabled") + ".")
+            this.__messageService.snackbarSuccess("Product successfully " + (enabled ? "enabled" : "disabled") + ".")
         } catch (err) {
             console.log(err);
         }
@@ -182,7 +186,7 @@ export class ProductsService {
                         image: image,
                         lastEditTime: Date.now().valueOf()
                     }, { merge: true });
-                this.snackbarSuccess("Product image successfully updated.")
+                this.__messageService.snackbarSuccess("Product image successfully updated.")
             });
         } catch (err) {
             console.log(err);
@@ -194,7 +198,7 @@ export class ProductsService {
     async deleteProduct(id: string): Promise<void> {
         try {
             await this.firestoreProductsCollection.doc(id).delete();
-            this.snackbarSuccess("Product successfully deleted.")
+            this.__messageService.snackbarSuccess("Product successfully deleted.")
         } catch (err) {
             console.log(err);
         }
@@ -202,24 +206,6 @@ export class ProductsService {
 
     public get numberOfProducts(): number {
         return this._productStatistic.numberOfProducts;
-    }
-
-    private configSuccess: MatSnackBarConfig = {
-        panelClass: ['style-success'],
-        duration: 2000
-    };
-
-    private configError: MatSnackBarConfig = {
-        panelClass: ['style-error'],
-        duration: 2000
-    };
-
-    public snackbarSuccess(message: string) {
-        this.snackbar.open(message, 'Close', this.configSuccess);
-    }
-
-    public snackbarError(message: string) {
-        this.snackbar.open(message, 'Close', this.configError);
     }
 
 }

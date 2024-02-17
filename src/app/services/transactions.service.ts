@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { FileUploadService } from './file-upload.service';
 import { User } from './authentication.service';
+import { MessageService } from './message.service';
 
 export interface Transaction {
     id: string;
@@ -40,7 +41,9 @@ export class TransactionsService {
         })
     );
 
-    constructor(private firestore: AngularFirestore, private snackbar: MatSnackBar) {
+    constructor(
+        private firestore: AngularFirestore,
+        private __messageService: MessageService) {
         this._transactions$.subscribe((transactions) => {
             this._transactionStatistic.numberOfTransactions = transactions.length;
         });
@@ -71,7 +74,7 @@ export class TransactionsService {
             await this._firestoreTransactionCollection.add(data);
             // this.snackbarSuccess("Price successfully checked out for " + data.product?.price + "€.");
         } catch (err) {
-            this.snackbarSuccess("Error occured: " + err);
+            this.__messageService.snackbarSuccess("Error occured: " + err);
         }
     }
 
@@ -79,33 +82,15 @@ export class TransactionsService {
     async deleteTransaction(transaction: Transaction): Promise<void> {
         try {
             await this._firestoreTransactionCollection.doc(transaction.id).delete();
-            this.snackbarSuccess("Transaction successfully deleted.")
+            this.__messageService.snackbarSuccess("Transaction successfully deleted.")
         } catch (err) {
             console.log(err);
-            this.snackbarError("Error while deleting transaction: " + err)
+            this.__messageService.snackbarError("Error while deleting transaction: " + err)
         }
     }
 
     public get numberOfTransactions(): number {
         return this._transactionStatistic.numberOfTransactions;
-    }
-
-    private configSuccess: MatSnackBarConfig = {
-        panelClass: ['style-success'],
-        duration: 2000
-    };
-
-    private configError: MatSnackBarConfig = {
-        panelClass: ['style-error'],
-        duration: 2000
-    };
-
-    public snackbarSuccess(message: string) {
-        this.snackbar.open(message, 'Close', this.configSuccess);
-    }
-
-    public snackbarError(message: string) {
-        this.snackbar.open(message, 'Close', this.configError);
     }
 
 }

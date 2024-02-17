@@ -4,14 +4,12 @@ import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {AngularFirestore, AngularFirestoreDocument} from "@angular/fire/compat/firestore";
 import {Router} from "@angular/router";
 import {Observable, firstValueFrom, of, switchMap} from "rxjs";
-import {md5} from './md5';
 import { map } from 'rxjs/operators';
 
 export interface User {
   id: string;
   email: string;
   displayName: string;
-  photoURL: string;
   emailVerified: boolean;
   role: string;
   verified: boolean;
@@ -102,7 +100,7 @@ export class AuthenticationService {
         this.sendVerificationMail();
         result.user?.updateProfile({
           displayName: username,
-          photoURL: 'https://www.gravatar.com/avatar/' + md5(result.user?.email?.trim().toLowerCase()) + '?d=retro&r=g&f=y&s=300'
+          // photoURL: 'https://www.gravatar.com/avatar/' + md5(result.user?.email?.trim().toLowerCase()) + '?d=retro&r=g&f=y&s=300'
         }).then(() => {
           if (result.user) {
             this.createUserData(result.user).catch((error) => {
@@ -236,7 +234,6 @@ export class AuthenticationService {
       id: user.uid,
       email: <string>user.email,
       displayName: <string>user.displayName,
-      photoURL: <string>user.photoURL,
       emailVerified: user.emailVerified,
       creationTime: user.metadata.creationTime,
       lastSignInTime: Date.now().valueOf()
@@ -250,15 +247,13 @@ export class AuthenticationService {
       id: user.uid,
       email: <string>user.email,
       displayName: <string>user.displayName,
-      photoURL: <string>user.photoURL,
       emailVerified: user.emailVerified,
       role: "user",
       verified: false,
       creationTime: user.metadata.creationTime ? user.metadata.creationTime : '',
-      lastSignInTime: Date.now().valueOf()
+      lastSignInTime: Date.now().valueOf(),
     }
     return userRef.set(userData, {merge: true});
-
   }
 
   private navigateToActionPage(mode: string) {

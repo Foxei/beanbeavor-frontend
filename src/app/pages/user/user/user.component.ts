@@ -24,7 +24,9 @@ export class UserComponent {
   }
 
   get creationTime(): string {
-    return this.currentUser ? this.currentUser.creationTime : '';
+    let time = this.currentUser ? this.currentUser.creationTime : 0;
+    const date = new Date(time);
+    return date.toLocaleString();
   }
 
   get lastSignInTime(): string {
@@ -55,10 +57,6 @@ export class UserComponent {
 
   get roleDescription(): string {
     return this.currentUser ? this.mapRoleToDescription(this.currentUser.role) : '';
-  }
-
-  get profilePictureUrl(): string {
-    return this.currentUser ? this.currentUser.photoURL.replace('s96-c', 's300-c') : '';
   }
 
   public signOut(): void {

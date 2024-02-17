@@ -1,15 +1,12 @@
 <mat-card class="flex basis-[640px] sm:basis-full">
   <mat-card-header>
-    <img mat-card-avatar [src]="profilePictureUrl" alt="Profile Picture" [class.loading-background]="!currentUser">
-    <mat-card-title [class.loading-background]="!currentUser">{{ username }}</mat-card-title>
-    <mat-card-subtitle [class.loading-background]="!currentUser">{{ role }}</mat-card-subtitle>
+    <mat-card-title>{{ username }}</mat-card-title>
+    <mat-card-subtitle>{{ role }} - {{ isVerified ? 'Verified' : 'Not Verified' }}</mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content>
-    <p [class.loading-background]="!currentUser"><strong>Role Description:</strong> {{ roleDescription }}</p>
-    <p [class.loading-background]="!currentUser"><strong>Creation Time:</strong> {{ creationTime }}</p>
-    <p [class.loading-background]="!currentUser"><strong>Last Sign-In Time:</strong> {{ lastSignInTime }}</p>
-    <p [class.loading-background]="!currentUser"><strong>Verification Status:</strong> {{ isVerified ? 'Verified' : 'Not Verified' }}</p>
-    <p [class.loading-background]="!currentUser"><strong>Email Verification Status:</strong> {{ isEmailVerified ? 'Verified' : 'Not Verified' }}</p>
+  <mat-card-content class="mt-4">
+    <p><strong>Creation Time:<br></strong> {{ creationTime }}</p>
+    <p><strong>Last Sign-In Time:<br></strong> {{ lastSignInTime }}</p>
+    <p><strong>Email Verification Status:<br></strong> {{ isEmailVerified ? 'Verified' : 'Not Verified' }}</p>
   </mat-card-content>
   <mat-card-actions>
     <button mat-flat-button color="warn" (click)="signOut()" class="btn-block" [disabled]="!currentUser">Sign Out</button>

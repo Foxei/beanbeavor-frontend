@@ -29,9 +29,9 @@ export class AppComponent {
     this.themeService.activateLightMode();
   }
 
-  public get currentUserPhotoURL(): string {
-    if (!this.authenticationService.currentUser) return 'https://www.gravatar.com/avatar/?d=mp&r=g&f=y&s=300';
-    return this.authenticationService.currentUser.photoURL;
-  }
+  // public get currentUserPhotoURL(): string {
+  //   if (!this.authenticationService.currentUser) return 'https://www.gravatar.com/avatar/?d=mp&r=g&f=y&s=300';
+  //   return this.authenticationService.currentUser.photoURL;
+  // }
 
 }

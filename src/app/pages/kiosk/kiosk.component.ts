@@ -1,5 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { KioskService } from 'src/app/services/kiosk.service';
 
 @Component({
   selector: 'bb-kiosk',
@@ -9,26 +11,43 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class KioskComponent {
   @ViewChild('input') input: ElementRef;
 
-  form = new FormGroup({
+  public form = new FormGroup({
     pin: new FormControl('', [Validators.required, Validators.max(999), Validators.min(100)])
   });
 
-  constructor() { }
+  constructor(
+    private __kioskService: KioskService,
+    private __router: Router
+    ) { }
 
-  ngAfterViewInit(): void {
-    // this.input.nativeElement.focus();
+  public inputFilter(event: KeyboardEvent): boolean {
+    const key = event.key;
+
+    const keyWhiteList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    if (keyWhiteList.includes(key)) return true;
+
+    if (key == "Enter") {
+      this.onSubmitForm();
+      return true;
+    }
+
+    return false;
   }
 
-  public inputNumber(value: number){
+  public clearPin() {
+    this.form.controls.pin.setValue('');
+  }
+
+  public inputDigit(value: number) {
     const pin = this.form.value['pin']! + value.toString();
     this.form.controls.pin.setValue(pin);
   }
 
-  public catering(){
-    this.form.controls.pin.setValue('');
-    this.inputNumber(1);
-    this.inputNumber(0);
-    this.inputNumber(0);
+  public signInAsCatering() {
+    this.clearPin();
+    this.inputDigit(1);
+    this.inputDigit(0);
+    this.inputDigit(0);
     this.onSubmitForm();
   }
 
@@ -39,8 +58,21 @@ export class KioskComponent {
   public onSubmitForm(): void {
     if (!this.valid) { return; }
     this.form.disable();
-    // this.snackBarRef.dismiss();
-    // this.productService.changeProductPrice(this.data.id, this.form.value['price']!);
+    const pin: number = Number(this.form.value['pin']!);
+    this.__kioskService.usersViaPin(pin).then(res => {
+     this.__onSignInSucceded();
+    }).catch(res => {
+      this.__onSignInFailed();
+    });
+  }
+
+  private __onSignInSucceded() {
+    this.__router.navigate(['/home']);
+  }
+
+  private __onSignInFailed() {
+    this.clearPin();
+    this.form.enable();
   }
 
 }

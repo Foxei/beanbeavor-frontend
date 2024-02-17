@@ -17,24 +17,32 @@
         <div class="grid grid-cols-3 gap-4 pin-pad pt-4">
           <mat-form-field class="col-span-3 pin-pad-input btn-block" appearance="outline">
             <mat-label>Pin</mat-label>
-            <input #input matInput type="number" step="1" min="1" max="999" formControlName="pin">
-            <mat-hint>Use your three-digit pin to login.</mat-hint>
-            <mat-error *ngIf="form.hasError('required', 'pin')">Enter valid login pin.</mat-error>
-            <mat-error *ngIf="form.hasError('max', 'pin')">Entered pin to long.</mat-error>
-            <mat-error *ngIf="form.hasError('min', 'pin')">Entered pin to short.</mat-error>
-          </mat-form-field>
-          <button mat-flat-button color="accent" class="order-last" type="submit" (click)="onSubmitForm()"><mat-icon>login</mat-icon></button>
+            <input #input matInput (keypress)="inputFilter($event)" type="number" step="1" min="1" max="999" formControlName="pin">
+            
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="clearPin()" [disabled]="form.disabled">
+              <mat-icon>close</mat-icon>
+            </button>
 
-          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputNumber(7)">7</button>
-          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputNumber(8)">8</button>
-          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputNumber(9)">9</button>
-          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputNumber(4)">4</button>
-          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputNumber(5)">5</button>
-          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputNumber(6)">6</button>
-          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputNumber(1)">1</button>
-          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputNumber(2)">2</button>
-          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputNumber(3)">3</button>
-          <button mat-flat-button color="accent" class="col-span-2" (click)="catering()"><mat-icon>local_drink</mat-icon>Bewirtung</button>
+            <mat-hint *ngIf="!form.disabled">Use your three-digit pin to login.</mat-hint>
+            <mat-error *ngIf="form.hasError('required', 'pin')">Enter valid login pin.</mat-error>
+            <mat-error *ngIf="form.hasError('max', 'pin')">Entered pin is invalid.</mat-error>
+            <mat-error *ngIf="form.hasError('min', 'pin')">Entered pin is invalid.</mat-error>
+          </mat-form-field>
+          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputDigit(7)" [disabled]="form.disabled">7</button>
+          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputDigit(8)" [disabled]="form.disabled">8</button>
+          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputDigit(9)" [disabled]="form.disabled">9</button>
+          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputDigit(4)" [disabled]="form.disabled">4</button>
+          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputDigit(5)" [disabled]="form.disabled">5</button>
+          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputDigit(6)" [disabled]="form.disabled">6</button>
+          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputDigit(1)" [disabled]="form.disabled">1</button>
+          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputDigit(2)" [disabled]="form.disabled">2</button>
+          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputDigit(3)" [disabled]="form.disabled">3</button>
+          <button mat-flat-button color="accent" class="pin-pad-button" (click)="inputDigit(0)" [disabled]="form.disabled">0</button>
+          <!-- <div class="grid grid-col-subgrid grid-cols-3 gap-4 col-span-3">
+            <div></div>
+            <div></div>
+          </div> -->
+          <button mat-flat-button color="accent" class="pin-pad-button col-span-2" (click)="signInAsCatering()" [disabled]="form.disabled"><mat-icon>local_drink</mat-icon>Bewirtung</button>
         </div>
         </form>
       </mat-card-content>
