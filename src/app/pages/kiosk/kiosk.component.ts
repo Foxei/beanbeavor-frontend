@@ -11,6 +11,8 @@ import { KioskService } from 'src/app/services/kiosk.service';
 export class KioskComponent {
   @ViewChild('input') input: ElementRef;
 
+  public shake = false;
+
   public form = new FormGroup({
     pin: new FormControl('', [Validators.required, Validators.max(999), Validators.min(100)])
   });
@@ -73,6 +75,8 @@ export class KioskComponent {
   private __onSignInFailed() {
     this.clearPin();
     this.form.enable();
+    this.shake = true;
+    setTimeout(() => {this.shake=false}, 820);
   }
 
 }
